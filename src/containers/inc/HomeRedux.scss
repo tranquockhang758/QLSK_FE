@@ -1,0 +1,15 @@
+.user-panel img {
+    width: 100px;
+    height: 100px;
+}
+.user-panel .info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .sub-info{
+        color: azure;
+        text-decoration: none;
+        font-size: 20px;
+    }
+    
+}

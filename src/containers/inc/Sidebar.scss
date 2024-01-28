@@ -1,0 +1,23 @@
+.main-sidebar{
+    .sidebar{
+        .user-panel{
+            img{
+                width: 80px;
+                height: 80px;
+            }
+            .info{
+                display: flex;
+                align-items: center;
+                color: #ffffff;
+                font-size: 20px;
+                
+                &:hover{
+                    cursor: pointer;
+                }
+                .sub-info{
+                    text-decoration: none;
+                }
+            }
+        }
+    }
+}

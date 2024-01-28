@@ -1,0 +1,135 @@
+{
+    "home-header" : {
+        "Speciality" : "Chuyên khoa",
+        "health_facilitiy" : "Cơ sở y tế",
+        "Doctors" : "Bác sỹ",
+        "Medical_Package" : "Gói khám bệnh",
+        "Find_Doctor_by_Speciality" : "Tìm bác sỹ theo chuyên khoa",
+        "Find_Good_Doctor" :"Tìm bác sỹ giỏi",
+        "Select_Hospital_Clinic" : "Chọn phòng khám, chuyên khoa",
+        "General_Health" : "Sức khỏe tổng quát",
+        "specialist_examination" : "Khám chuyên khoa",
+        "remote_examination" : "Khám từ xa",
+        "general_examination" : "Khám tổng quát",
+        "medical_test" : "Xét nghiệm y học",
+        "healthy_mental" : "Sức khỏe tinh thần",
+        "dental_examination" : "Khám nha khoa",
+        "Medical_Foundation" : "NỀN TẢNG Y TẾ",
+        "Comprehensive_healthy_care" : "CHĂM SÓC SỨC KHỎE TOÀN DIỆN",
+        "Enter_Word_Input" : "Nhập từ khóa để tìm kiếm",
+        "welcome" : "Xin chào, "
+    },
+
+    "login": {
+        "login": "Đăng nhập",
+        "username": "Tên đăng nhập",
+        "password": "Mật khẩu",
+        "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!"
+    },
+    "menu": {
+        "system": {
+            "header": "Hệ thống",
+            "system-administrator": {
+                "header": "Quản trị hệ thống",
+                "user-manage": "Quản lý người sử dụng",
+                "product-manage": "Quản lý gói",
+                "register-package-group-or-account": "Đăng ký gói dịch vụ cho nhóm/tài khoản",
+                "user-redux" :"Quản lí người dùng với Redux",
+                "user-login" :"Login với theme"
+            },
+            "system-parameter": {
+                "header": "Tham số hệ thống"
+            }
+        },
+        "admin": {
+            "manage-user": "Quản lý người sử dụng",
+            "manage-doctor": "Quản lý bác sỹ",
+            "manage-admin": "Quản lý admin",
+            "user-redux": "Quản lý người dùng với Redux",
+            "crud-redux": "CRUD với Redux",
+            "user-Login": "user Login",
+
+            "admin-clinic" : "Admin phòng khám",
+            "manage-clinic" : "Quản lí phòng khám",
+
+            "specialty" : "Chuyên khoa",
+            "manage-specialty" : "Quản lí Chuyên khoa",
+
+
+            "handbook" : "Cẩm nang",
+            "manage-handbook" : "Quản lí Cẩm nang",
+            "product-manage": {
+                "fail-to-load-foprtype": "Không thể tải về danh sách gói",
+                "prid": "Mã gói",
+                "prname": "Tên gói",
+                "prtype": "Loại gói",
+                "status": "Trạng thái",
+                "description": "Diễn giải",
+                "effective-date": "Ngày hiệu lực",
+                "expiration-date": "Ngày hết hiệu lực",
+                "add-product": "Thêm gói",
+                "add-product-success": "Thêm gói thành công",
+                "add-product-fail": "Thêm gói thất bại",
+                "edit-product": "Sửa thông tin gói",
+                "package-decentralize": "Phân quyền chức năng",
+                "edit-product-success": "Thay đổi thông tin gói thành công",
+                "edit-product-fail": "Thay đổi thông tin gói thất bại",
+                "delete-product-success": "Xóa gói thành công",
+                "delete-product-fail": "Xóa gói thất bại",
+                "invalid-input": {
+                    "prid": "Quý khách vui lòng nhập mã gói",
+                    "prname": "Quý khách vui lòng nhập tên gói"
+                },
+                "fail-to-load-decentralize-info": "Không thể tải về thông tin phân quyền chức năng",
+                "save-decentralize-success": "Lưu phân quyền chức năng thành công",
+                "save-decentralize-fail": "Lưu phân quyền chức năng thất bại",
+                "sure-delete-package": "Bạn có chắc chắn muốn xóa gói này?"
+            },
+            "register-package-group-or-acc": {
+                "assign-service-package-to-customer": "Gán gói dịch vụ cho khách hàng",
+                "package-name": "Tên gói",
+                "assign-type": "Loại gán",
+                "cust-acc-group": "Nhóm KH/Tài khoản",
+                "effective-date": "Ngày hiệu lực",
+                "expiration-date": "Ngày hết hiệu lực",
+                "assign": "Gán",
+                "manage-assign-groups": "Quản lý gán nhóm",
+                "group-cust-acc-name": "Tên nhóm/tài khoản KH",
+                "del-assign": "Xóa gán",
+                "fail-to-load-manage-assign-groups-list": "Không thể tải về thông tin quản lý gán nhóm",
+                "invalid-selected": {
+                    "currentfoProduct": "Gói đang chọn không hợp lệ",
+                    "currentAssignType": "Loại gán không hợp lệ",
+                    "currentFoUser": "Nhóm KH/Tài khoản không hợp lệ"
+                },
+                "assign-service-package-to-customer-success": "Gán gói dịch vụ cho khách hàng thành công",
+                "assign-service-package-to-customer-fail": "Gán gói dịch vụ cho khách hàng thất bại",
+                "remove-assign-success": "Bỏ gán gói dịch vụ cho khách hàng thành công",
+                "remove-assign-fail": "Bỏ gán gói dịch vụ cho khách hàng thất bại",
+                "sure-delete-assign": "Bạn có chắc chắn muốn bỏ gán gói dịch vụ cho khách hàng?"
+            }
+        }
+    },
+    "user" : {
+        "manage-user": "Quản lí người dùng",
+        "firstName" : "Tên",
+        "lastName" : "Họ",
+        "numberPhone" : "Số điện thoại",
+        "address" : "Địa chỉ",
+        "Edit-user": "Điều chỉnh thông tin người dùng",
+        "save-changes" :"Lưu",
+        "cancel" : "Hủy bỏ",
+        "name" :"Họ và tên",
+        "email" : "Địa chỉ email",
+        "task" : "Tác vụ",
+        "manage-user-jwt" : "Quản lí người dùng với JWT",
+        "gender" : "Giới tính",
+        "Choose-certificate" : "Chọn bằng cấp",
+        "Choose-motherCompany" : "Chọn công ty mẹ",
+        "Choose-department" : "Chọn phòng ban",
+        "Choose-position" : "Chọn chức danh",
+        "Choose-gender" : "Chọn giới tính",
+        "Choose-role" : "Chọn quyền user"
+    }
+    
+}

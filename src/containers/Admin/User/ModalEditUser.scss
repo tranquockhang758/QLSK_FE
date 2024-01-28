@@ -1,0 +1,65 @@
+.modal-use-container{
+    .modal-body{
+        display: flex;
+        flex-direction: column;
+        input{
+            border-radius: 3px;
+        }
+    }
+}
+
+.modal-content{
+    .modal-header{
+        display: flex;
+        width: 100%;
+        background: #fff !important;
+        border-bottom: 1px solid #2d3436;
+        background-color: #ffffff;
+        .modal-title{
+            color:#2d3436;
+            margin-left: 15px;
+        }
+        .close{
+            outline: none;
+            border: none;
+            background: #d63031;
+            width: 30px;
+            height: 28px;
+            border-radius: 3px;
+            font-size: 18px;
+            padding:2px;
+            margin:2px;
+            opacity: 1;
+        }
+    }
+    .modal-body{
+        .container{
+            .row{
+                .input-password{
+                    position: relative;
+                    .fas.fa-eye,.fas.fa-eye-slash{
+                        position: absolute;
+                        top: 7px;
+                        right:20px;
+                    }
+                }
+            }
+        }
+    }
+    .modal-footer{
+        .save{
+            padding:5px;
+            width: auto;
+            height: 40px;
+            font-size: 18px;
+        }
+        .close{
+            padding:5px;
+            width: auto;
+            height: 40px;
+            font-size: 18px;
+            background: #d63031;
+            opacity: 1;
+        }
+    }
+}

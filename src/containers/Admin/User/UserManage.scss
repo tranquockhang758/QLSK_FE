@@ -1,0 +1,31 @@
+.text-header{
+    color:#00cec9;
+    font-size: 18px;
+    text-align: center;
+}
+.text-header:hover{
+    color:#6c5ce7;
+}
+.button-edit-user{
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    background: #3498db;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.button-edit-user:hover,.button-delete-user:hover{
+    box-shadow: 2px 2px #0097e6;
+    transition: all 0.5 linear;
+}
+.button-delete-user{
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    background: #3498db;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.add-users{
+    margin-left: 5px;
+}
