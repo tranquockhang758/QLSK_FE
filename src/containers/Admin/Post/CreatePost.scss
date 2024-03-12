@@ -1,0 +1,205 @@
+.card-create{
+    .card-header{
+        background: #007bff  !important;
+        border-radius: 0px !important;
+    }
+}
+.error{
+    color:red;
+    font-size:11px;
+    display:block;
+    margin-top: 5px;
+}
+.breadcrumb-item{
+    text-decoration: none;
+    font-weight: 500;
+    color:#2d3436;
+    &:hover{
+        cursor: pointer;
+        text-decoration: underline;
+        color:#2d3436;
+    }
+}
+
+
+.active-error{
+    // box-shadow:  0 0 0 5px #e8150040;
+    border-color: hsl(5, 100%, 45%);
+}
+.card-create{
+    min-height: 750px !important;
+}
+.col-md-11,.col-sm-11{
+    position: relative;
+}
+
+.fa.fa-info-circle.input-post{
+    position: absolute;
+    color: #e81500;
+    right: 20px;
+    top: 10px !important;
+}
+.fa.fa-info-circle.error-info-select{
+    top: 10px !important;
+    right: 40px;
+}
+.input-select{
+    position: relative;
+}
+.error-info{
+    position: absolute;
+    right: 35px !important;
+    padding: 0px;
+}
+
+.input-password{
+    position: relative;
+}
+.error-info-password{
+    position: absolute;
+    color: #e81500;
+    right: 35px !important;
+    top: 5px;
+}
+.jodit-react-container{
+    width: 100%;
+}
+.jodit-workplace{
+    height: 200px !important;
+}
+
+
+//===============================================Form upload file
+
+
+
+//===========================Khugn upload file
+
+.upload{
+    // padding-left:  20px !important;
+    border: 1px solid red;
+    min-height: 200px !important;
+}
+.button-remove-file{
+    border: none;
+    outline: none;
+    background: #0984e3;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.content-left-upload{
+text-align: center;
+margin-top: 4%;
+padding: 0px !important ;
+}
+.image-upload{
+    cursor: pointer;
+    text-align: center;
+}
+.div-add-file{
+    padding-bottom: 5px;
+}
+.button-add-upload{
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    height: 38px;
+    border: none;
+    outline: none;
+    background: #78e08f;
+    color:#fff;
+    width: 150px;
+    border-radius: 3px;
+    margin-top: 10px !important;
+}
+.file-list{
+    list-style: none;
+    padding-left: 10px !important;
+    margin-bottom: 0px;
+    .list-item{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center !important;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+        .file-type{
+            display: flex;
+            p{
+                margin-bottom: 0;
+                border-radius: 50%;
+                width: 35px;
+                height: 35px;
+                border: 1px solid #0984e3;
+                display: flex;
+                justify-content: center ;
+                align-items: center;
+                flex-direction: row;
+                text-align: center;
+                color:#f5f5f5;
+                background: #7ed6df;
+            }
+            .title-file{
+                cursor: pointer;
+                margin-left: 5px;
+                color:#333;
+                font-size: 12px;
+                //file-name,file-capacity
+            }
+        }
+        
+        
+
+        .icon-file,.title-file,.action-file{
+            color:#7ed6df;
+            font-size: 14px !important;
+        
+        }
+        .action-file{
+            margin-right: 5px;
+            margin-left: 15px;
+            cursor: pointer;
+            color:#7ed6df;  
+            i{
+                font-size: 18px;
+            }
+        }
+    }
+    
+}
+
+
+.content-right{
+    margin-top: 8px;
+}
+
+.input-choosen-file{
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    height: 38px;
+    border: none;
+    outline: none;
+    background: #78e08f;
+    color:#fff;
+    width: 150px;
+    border-radius: 3px;
+}
+.input-choosen-file:hover{
+    opacity: 0.8;
+}
+
+
+//-=-------------------------------Description
+.row-text-count{
+    display: flex;
+    justify-content: space-between;
+    .text{
+        text-align: right;
+        font-size: 10px;
+        margin-top: 4px;
+    }
+}

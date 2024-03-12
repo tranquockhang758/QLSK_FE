@@ -1,0 +1,269 @@
+.css-11xur9t-MuiPaper-root-MuiTableContainer-root{
+    box-shadow: none;
+}
+.css-i44wyl{
+    width: 100%;
+}
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    width: 100% !important;
+}
+.text-header{
+    color:#00cec9;
+    font-size: 18px;
+    text-align: center;
+}
+.text-header:hover{
+    color:#6c5ce7;
+}
+.button-edit-user{
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    background: #3498db;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.button-edit-user:hover{
+    opacity: 0.6;
+    transition: all 0.5 linear;
+}
+.button-delete-user{
+    margin-right: 5px;
+    outline: none;
+    border: none;
+    background: red;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.button-delete-user:hover{
+    opacity: 0.6;
+    transition: all 0.5 linear;
+}
+.button-view-user{
+
+    outline: none;
+    border: none;
+    background: #78e08f;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.button-view-user:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+// .contnet-wrapper{
+//     min-height: 300px !important;
+//     .content-header{
+//         padding: 0;
+//         margin-bottom: 0;
+//     }
+//     .content{
+//         margin-bottom: 0px;
+//     }
+// }
+.badge {
+    padding:2px 0px 2px 0px !important;
+    width: 14px ;
+    height: 14px;
+    position: absolute;
+    right: -3px;
+    top: 5px;
+}
+// .card-title.title-user-manage{
+//     font-family: Roboto-Regular,Helvetica Neue,Helvetica,Tahoma,Arial,sans-serif!important;
+//     height: 35px;
+//     background: #636e72;
+// }
+.card-header:first-child{
+    height: 40px;
+    position: relative;
+    .navbar-list{
+        
+        height: 100% !important;
+        .nav-link{
+            color: #fff;
+        }
+        .dropdown-item:hover{
+            opacity: 0.8;
+            background: #0984e3;
+            cursor: pointer;
+            color: white;
+        }
+    }
+}
+
+.card-tools{
+    position: absolute;
+    right: 20px;
+    button{
+        i{
+            color: #fff; 
+            &:hover{
+                color:#fdcb6e !important;
+            }
+        }
+    }
+      
+}
+.thead-table{
+    border: none;
+}
+.table-user-manage{
+    font-size: 12px;
+}
+
+.css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+    margin-bottom: 10px;
+}
+
+
+//=========================================================Pagination
+
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    padding-bottom: 0px !important;
+    border-radius: 3px;
+    overflow: hidden;
+    height: 250px;
+
+    .MuiTablePagination-menuItem{
+        width: 60px;
+        height: 36px;
+        display: block;
+        line-height: 2.5;
+        padding :6px 16px;
+        text-align: center;
+    }
+}
+///CSS position menu dropdown
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    font-size: 12px !important;
+    color:#1e293b;
+}
+//=========================================================MotherCompany
+
+//=======================================Hover otem
+.MuiButtonBase-root{
+    // padding-left:5px !important;
+    color: #1e293b;
+    font-size: 11px !important;
+    line-height: 30px !important;
+    height: 3em;
+
+    &:hover{
+        color:#0d6efd;
+    }
+}
+
+.motherCompany{
+    height: 250px !important;
+    overflow: scroll;
+}
+
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
+    color:#1e293b
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+    span{
+        font-size: 8px !important;
+    }
+}
+
+.css-bpeome-MuiSvgIcon-root-MuiSelect-icon{
+    font-size: 8px !important;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline::placeholder{
+    color:#1e293b;
+    font-size: 10px;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline:focus::placeholder{
+    color:#1e293b;
+    font-size: 10px;
+}
+
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root:focus{
+    span{
+        counter-reset:#1e293b; 
+    }
+}
+
+
+
+
+
+.row-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.css-1ygcj2i-MuiTableCell-root,.css-1ex1afd-MuiTableCell-root{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+
+
+  
+.css-rqglhn-MuiTable-root{
+    word-wrap: break-word;
+    border-collapse: collapse !important;
+    .MuiTableHead-root{
+        height: 80px !important;
+            tr{ 
+                height: 100%;
+                padding: 16px !important;
+                text-align: center !important; 
+                th{
+                    padding-bottom: 25px !important;
+                }
+            }
+    }
+}
+
+//Chu trong list box chon cong ty me
+.css-pwxzbm{
+    color: rgba(0, 0, 0, 0.65);
+}
+
+//Font size for pagination
+.css-i4bv87-MuiSvgIcon-root{
+    font-size: 18px !important;
+}
+.css-levciy-MuiTablePagination-displayedRows,.css-levciy-MuiTablePagination-displayedRows ,.css-pdct74-MuiTablePagination-selectLabel{
+    font-size: 12px !important;
+}
+
+
+//Style height cho dropdown list 
+
+.css-1t6pjpu-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    height: 250px !important;
+    overflow: scroll;
+}
+//Style position cho dropdown list 
+.css-7c7czk{
+    left: 38px !important;
+}
+//====================================Show progressbar
+.content-wrapper{
+    position: relative;
+}
+.css-18lrjg1-MuiCircularProgress-root{
+    position: absolute;
+    top: 20%;
+    left: 45%;
+}
+
+table{
+    display: block;
+    overflow-y: scroll;
+}
+
+//Menu list
+.css-r8u8y9{
+    height: 250px !important;
+}
+//Menu item
+.css-1km1ehz{
+    padding: 10px !important;
+}
+

@@ -56,6 +56,7 @@ class CustomToast extends Component {
 }
 
 export class CustomToastCloseButton extends Component {
+  componentDidMount() {}
   render() {
     return (
       <button

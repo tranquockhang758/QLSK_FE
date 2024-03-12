@@ -10,6 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper{background-color:#fff;}
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -12438,6 +12439,7 @@ body:not(.layout-fixed) .main-sidebar .sidebar {
   -ms-flex-direction: column;
   flex-direction: column;
   background-color: initial;
+  width: 400px !important;
 }
 
 .navbar-search-block.navbar-search-open {

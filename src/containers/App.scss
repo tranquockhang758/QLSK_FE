@@ -1,1 +1,44 @@
 @import "../styles/common.scss";
+//Customize background toast
+
+.toast-item{
+    position: relative;
+}
+
+.wrapper{
+    min-height: 1500px;
+    overflow:scroll;
+
+}
+.toast-container .toast-item.Toastify__toast--error{
+    width: 230px;
+    display: flex;
+    background: #d35400 !important;
+    margin-bottom: 5px;
+    box-shadow: none;
+    .toast-close{
+        position: absolute;
+        top: 30%;
+    }
+}
+
+// body{
+//     font-size: calc(12px + (12 - 10) * ((100vw - 300px) / (1200 - 300))) !important;
+// }
+.content-container .content{
+    position: relative !important;
+}
+.css-z01bqi {
+    display: inline-block;
+    color: rgb(25, 118, 210);
+    animation: 1.4s linear 0s infinite normal none running animation-61bdi0;
+    position: absolute !important;
+    top: 150px;
+    left: 45%;
+}
+
+.btn,.btn-sm{
+    outline: none;
+
+    box-shadow: none !important;
+}

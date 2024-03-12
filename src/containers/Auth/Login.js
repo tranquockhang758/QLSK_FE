@@ -7,75 +7,67 @@ import { toast } from "react-toastify";
 import "./Login.scss";
 // import { FormattedMessage } from 'react-intl';
 import { handleLogin } from "../../services/userService";
-import banner from "../../assets/images/evngenco.png";
+import banner from "../../assets/images/logo.png";
+import { withRouter } from "react-router-dom";
+import { checkEmail, checkPassword } from "./RegEx";
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      email: "",
       password: "",
       errMessage: "",
       isShowPassword: false,
     };
   }
+
+  componentDidMount() {
+    const clearTimer = setTimeout(() => {
+      return window.location.replace("/login");
+    });
+    return clearTimeout(clearTimer);
+  }
+  componentDidUpdate(prevProps) {}
   handleOnchangeInput = (event) => {
-    this.setState({ username: event.target.value });
+    this.setState({ email: event.target.value });
   };
   handleOnchangePassword = (event) => {
     this.setState({ password: event.target.value });
   };
-  handleLogin = async (e) => {
-    this.setState({ errMessage: "" });
-    let email = this.state.username;
-    let password = this.state.password;
-    try {
-      let data = await handleLogin(email, password);
-      if (
-        data &&
-        data.userData.errCode === 0 &&
-        data.userData.user.roleId === 1
-      ) {
-        let accessToken = data.accessToken;
-        let userInfo = data.userData;
-        let data_action = {
-          accessToken: accessToken,
-          userInfo: userInfo,
-        };
-        // console.log(accessToken);
-        this.props.userLoginSuccess(data_action);
-      }
-
-      //Check quyền nếu không phải admin đẩy user ra ngoài home
-      if (
-        data &&
-        data.userData.errCode === 0 &&
-        data.userData.user.roleId !== 1
-      ) {
-        console.log("Ok");
-        this.props.history.push("/");
-      }
-
-      ///Nếu xuất hiện lỗi xuất lỗi ra toast cho người dùng  xem
-      //data.userData.Message
-      if (data.userData.errCode !== 0) {
-        console.log(data.userData.Message);
-        toast.error(`${data.userData.Message}`);
-      }
-    } catch (err) {
-      console.log(err.dataponse);
-    }
-    this.setState({
-      username: "",
-      password: "",
-      isShowPassword: false,
-    });
-    e.preventDefault();
-  };
   handleClickEye = (e) => {
     this.setState({ isShowPassword: !this.state.isShowPassword });
-    e.preventDefault();
+  };
+  handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      this.handleLogin();
+    }
+  };
+  handleLogin = async () => {
+    let email = this.state.email;
+    let password = this.state.password;
+    let isEmail = checkEmail(email);
+    // let isPassword = checkPassword(password, "password");
+    try {
+      if (isEmail && password) {
+        let res = await handleLogin(email, password);
+        if (res && res.access_token) {
+          // toast.success("Đăng nhập thành công");
+          this.props.userLoginStart(res);
+          this.setState({
+            email: "",
+            password: "",
+            isShowPassword: false,
+          });
+        } else {
+          toast.error("email hoặc password sai");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   render() {
+    let hrefDefault = "";
     return (
       <React.Fragment>
         <div id="main-container">
@@ -83,7 +75,7 @@ class Login extends Component {
             {/* /.login-logo */}
             <div className="card">
               <div className="card-body login-card-body">
-                <div className="banner">
+                <div className="col-md-12 banner">
                   <img src={banner} alt="" />
                 </div>
                 <p className="login-box-msg">Đăng nhặp</p>
@@ -91,8 +83,8 @@ class Login extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="username"
-                    value={this.state.username}
+                    placeholder="email"
+                    value={this.state.email}
                     onChange={(event) => this.handleOnchangeInput(event)}
                   />
                   <div className="input-group-append">
@@ -105,10 +97,12 @@ class Login extends Component {
                   <input
                     type={this.state.isShowPassword ? "text" : "password"}
                     className="form-control"
-                    id="exampleDropdownFormPassword1"
                     placeholder="Password"
                     value={this.state.password}
                     onChange={(event) => this.handleOnchangePassword(event)}
+                    onKeyDown={(event) => {
+                      this.handleKeyDown(event);
+                    }}
                   />
                   <i
                     className={
@@ -129,18 +123,25 @@ class Login extends Component {
                 <div className="row">
                   <div className="col-8">
                     <div className="icheck-primary">
-                      <input type="checkbox" id="remember" />
-                      <label htmlFor="remember">Remember Me</label>
+                      <a
+                        href={hrefDefault}
+                        className="forget-button"
+                        onClick={() => {
+                          this.props.history.push("/admin/forget-password");
+                        }}
+                      >
+                        Forget password
+                      </a>
                     </div>
                   </div>
                   {/* /.col */}
                   <div className="col-4">
                     <button
                       type="submit"
-                      className="btn btn-primary btn-block"
-                      onClick={(e) => this.handleLogin(e)}
+                      className="btn btn-primary btn-block btn-login"
+                      onClick={() => this.handleLogin()}
                     >
-                      Sign In
+                      Đăng nhập
                     </button>
                   </div>
                   {/* /.col */}
@@ -159,17 +160,20 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    user_id: state.user.user_id,
+    isLoggedIn: state.user.isLoggedIn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
+
+    adminLoginStart: () => dispatch(actions.adminLoginStart()),
     // adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
     userLoginFail: () => dispatch(actions.userLoginFail()),
-    userLoginSuccess: (userInfo) =>
-      dispatch(actions.userLoginSuccess(userInfo)),
+    userLoginStart: (data) => dispatch(actions.userLoginStart(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

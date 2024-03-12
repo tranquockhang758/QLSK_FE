@@ -1,0 +1,52 @@
+Sort theo chiều thấp lên cao
+let a = [9, 100, 45, 33];
+///////////////////////Theo chiều giảm dần
+a.sort((a, b) => b - a);
+
+///////////////////////Theo chiều tăng dần
+a.sort((a, b) => a - b);
+
+
+
+//Remove and filter mãng 
+
+1/pop() => xóa phần tử cuối và trả về nó
+2/shift() => Xóa phần từ đầu tiên trả về nó
+3/slice() => Trả về phần tử từ vị trí start - end
+4/ splice() =>  xóa hoặc thay thế một phần tử tỏng mảng
+
+Cách 1/ let arr = [2, 1, 2, 5, 6, 7, 8, 9, 9, 10];
+     for (var i = 0; i < arr.length; i++) {
+      if (arr[i] === 5) {
+        xóa phần từ thứ i có giá trị bằng 5
+      }
+    }
+Cách 2/ let index = array.indexOf(5);
+arr.splice(index,1);
+
+
+5/ filter() => Tạo ra mãng thỏa điều kiện
+
+let users = [
+{ id: 1, name: "ted" },
+{ id: 2, name: "mike" },
+{ id: 3, name: "bob" },
+{ id: 4, name: "sara" }
+];
+let dataObject = users7.filter((item ) => {item.motherCompany === "EVN"})
+
+
+
+6/lodash remove <=> _remove => Xóa tất cả phần tử trong mãng mà thỏa điều kiện trong function => return phần tử bị Xóa
+(value, index, array)
+
+
+Trigger Child Function From parent 
+B1/ Tạo ref trên Parent component => Button khi click vào gọi đến this.microphoneRef.current
+<MainSpeed microphoneParentRef = {this.microphoneRef}/>
+
+B2/ Dưới Child component
+Sử dụng useEffect => Điều kiện là cái props ở cha thay đổi
+useEffect(() => {
+  //Gọi hàm con
+},[microphoneParentRef.current])

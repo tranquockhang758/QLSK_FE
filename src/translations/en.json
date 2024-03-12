@@ -135,9 +135,7 @@
     },
     "user" : {
         "manage-user": "Manage user",
-        "firstName" : "firstName",
-        "lastName" : "lastName",
-        "numberPhone" : "PhoneNumber",
+        "mobile" : "Mobile",
         "address" : "Address",
         "Edit-user": "Edit infomation of user",
         "save-changes" :"Save changes",
@@ -153,6 +151,17 @@
         "Choose-position" : "Choose Position",
         "Choose-gender" : "Choose Gender",
         "Choose-role" : "Choose role of user"
+    },
+    "breadcrumb" : {
+        "admin" :"admin",
+        "user":"người dùng",
+        "create" : "tạo mới",
+        "list":"danh sách",
+        "change-password" :"thay đổi mật khẩu",
+        "profile":"thông tin cá nhân",
+        "edit" :"Chỉnh sửa",
+        "view" : "Xem"
     }
+    
     
 }

@@ -73,9 +73,10 @@
     color: $colormain;
   }
   .content {
-    margin: 15px 30px;
-    box-shadow: 2px 2px 4px 0 $box-shadow-color;
-    -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
+    // margin: 15px 30px;
+    margin: 0px;
+    // box-shadow: 2px 2px 4px 0 $box-shadow-color;
+    // -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
   }
 }
 
@@ -103,4 +104,11 @@
       }
     }
   }
+}
+
+.card-title{
+  font-family: Roboto-Regular,Helvetica Neue,Helvetica,Tahoma,Arial,sans-serif!important;
+}
+.card-body{
+  font-family: Roboto-Regular,Helvetica Neue,Helvetica,Tahoma,Arial,sans-serif!important;
 }

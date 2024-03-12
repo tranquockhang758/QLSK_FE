@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
-import { Redirect, Route, Switch } from "react-router-dom";
-import * as actions from "../../store/actions";
 
 // import { FormattedMessage } from 'react-intl';
 
@@ -15,7 +12,17 @@ class Footer extends Component {
   render() {
     return (
       <>
-        <div>Footer</div>
+        <footer className="main-footer bg-primary">
+          <div className="float-right d-none d-sm-block">
+            {/* <b>Version</b> 3.2.0 */}
+          </div>
+          <span>
+            Copyright by Admin EVNHPC &copy; 2023-2024
+            {/* <a href>Tran Quoc Khang</a>. */}
+          </span>{" "}
+          All rights reserved.
+        </footer>
+        <aside className="control-sidebar control-sidebar-dark"></aside>
       </>
     );
   }

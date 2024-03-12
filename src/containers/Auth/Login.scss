@@ -8,10 +8,16 @@ body{
             display: flex;
             justify-content: center;
             align-items: center;
+            img{
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                object-fit: cover;
+            }
         }
         .login-box{
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             -ms-transform: translate(-50%, -50%); /* IE 9 */
@@ -69,9 +75,9 @@ body{
         color:#6c5ce7;
         font-weight: 900;
     }
-    .btn-login-other{
+    .btn-login{
         color:#0984e3;
-        font-size: 18px;
+        font-size: 12px;
     }
     .btn-login-other:hover{
         color:#6c5ce7;
@@ -125,11 +131,36 @@ body{
 i.far.fa-eye,i.far.fa-eye-slash{
     position: absolute;
     top: 10px;
-    right: 8px;
+    right: 3px;
 }
 .err_text{
     color:red;
     font-size: 14px;
     justify-content: center;
     text-align: center;
+}
+.forget-button{
+    color:#0984e3;
+    text-decoration: none;
+    font-size: 12px;
+}
+.forget-button:hover{
+    color:#d63031;
+    cursor: pointer;
+}
+.btn-login{
+
+    font-size: 12px;
+}
+.btn-login:hover{
+    opacity: 0.6;
+    transition: ease-in-out ;
+}
+.icheck-primary{
+    padding-left: 5px;
+}
+.login-box-msg{
+    font-size: 12px;
+    color:#2d3436;
+    font-weight: 400;
 }

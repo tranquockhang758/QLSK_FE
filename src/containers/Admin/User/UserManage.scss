@@ -14,18 +14,91 @@
     color:#ecf0f1;
     font-size: 18px;
 }
-.button-edit-user:hover,.button-delete-user:hover{
-    box-shadow: 2px 2px #0097e6;
+.button-edit-user:hover{
+    opacity: 0.6;
     transition: all 0.5 linear;
 }
 .button-delete-user{
     margin-right: 5px;
     outline: none;
     border: none;
-    background: #3498db;
+    background: red;
     color:#ecf0f1;
     font-size: 18px;
 }
-.add-users{
-    margin-left: 5px;
+.button-delete-user:hover{
+    opacity: 0.6;
+    transition: all 0.5 linear;
+}
+.button-view-user{
+
+    outline: none;
+    border: none;
+    background: #78e08f;
+    color:#ecf0f1;
+    font-size: 18px;
+}
+.button-view-user:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+// .contnet-wrapper{
+//     min-height: 300px !important;
+//     .content-header{
+//         padding: 0;
+//         margin-bottom: 0;
+//     }
+//     .content{
+//         margin-bottom: 0px;
+//     }
+// }
+.badge {
+    padding:2px 0px 2px 0px !important;
+    width: 14px ;
+    height: 14px;
+    position: absolute;
+    right: -3px;
+    top: 5px;
+}
+// .card-title.title-user-manage{
+//     font-family: Roboto-Regular,Helvetica Neue,Helvetica,Tahoma,Arial,sans-serif!important;
+//     height: 35px;
+//     background: #636e72;
+// }
+.card-header:first-child{
+    height: 40px;
+    position: relative;
+    .navbar-list{
+        
+        height: 100% !important;
+        .nav-link{
+            color: #fff;
+        }
+        .dropdown-item:hover{
+            opacity: 0.8;
+            background: #0984e3;
+            cursor: pointer;
+            color: white;
+        }
+    }
+}
+
+.card-tools{
+    position: absolute;
+    right: 20px;
+    button{
+        i{
+            color: #fff; 
+            &:hover{
+                color:#fdcb6e !important;
+            }
+        }
+    }
+      
+}
+.thead-table{
+    border: none;
+}
+.table-user-manage{
+    font-size: 12px;
 }

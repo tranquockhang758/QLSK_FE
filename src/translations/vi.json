@@ -112,9 +112,7 @@
     },
     "user" : {
         "manage-user": "Quản lí người dùng",
-        "firstName" : "Tên",
-        "lastName" : "Họ",
-        "numberPhone" : "Số điện thoại",
+        "mobile" : "Số điện thoại",
         "address" : "Địa chỉ",
         "Edit-user": "Điều chỉnh thông tin người dùng",
         "save-changes" :"Lưu",
@@ -130,6 +128,15 @@
         "Choose-position" : "Chọn chức danh",
         "Choose-gender" : "Chọn giới tính",
         "Choose-role" : "Chọn quyền user"
+    },
+    "breadcrumb" : {
+        "admin" :"admin",
+        "user":"người dùng",
+        "create" : "tạo mới",
+        "list":"danh sách",
+        "change-password" :"thay đổi mật khẩu",
+        "profile":"thông tin cá nhân",
+        "edit" :"Chỉnh sửa",
+        "view" : "Xem"
     }
-    
 }

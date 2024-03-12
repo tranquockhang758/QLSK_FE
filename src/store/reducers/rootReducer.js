@@ -23,13 +23,20 @@ const persistCommonConfig = {
 const userPersistConfig = {
   ...persistCommonConfig,
   key: "user",
-  whitelist: ["isLoggedIn", "userInfo", "accessToken"],
+  whitelist: [
+    "isLoggedIn",
+    "user_id",
+    "access_token",
+    "userInfo",
+    "isLoadingPage",
+    "view",
+  ],
 };
 
 const adminPersistConfig = {
   ...persistCommonConfig,
   key: "admin",
-  whitelist: ["fetchGenderSuccess"],
+  whitelist: [""],
 };
 const appPersistConfig = {
   ...persistCommonConfig,

@@ -11,6 +11,7 @@ const initialState = {
   certificate: [],
   motherCompany: [],
   role: [],
+  access_token: "",
 };
 
 const adminReducer = (state = initialState, action) => {

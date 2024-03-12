@@ -1,30 +1,46 @@
 import actionTypes from "./actionTypes";
-import {
-  getAllCodeService,
-  handleGetAllUsers,
-  handleGetAllUserJWT,
-} from "../../services/userService";
+import { handleLogin } from "../../services/userService";
+
+export const adminLoginStart = (email, password) => {
+  return async (dispatch, getState) => {
+    try {
+      let data = await handleLogin();
+      if (data && data.access_token) {
+        dispatch(adminLoginSuccess(data.access_token));
+      } else if (!data && !data.access_token !== 0) {
+        dispatch(adminLoginFailed("Admin Login Failed"));
+      }
+    } catch (e) {
+      console.log("Admin Login Failed", e);
+    }
+  };
+};
+
 export const adminLoginSuccess = (adminInfo) => ({
   type: actionTypes.ADMIN_LOGIN_SUCCESS,
   adminInfo: adminInfo,
 });
 
+export const adminLoginFailed = () => ({
+  type: actionTypes.ADMIN_LOGIN_FAIL,
+});
+
 //========================================Fetch Gender FROM API
 export const fetchGenderStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("gender");
-      if (res && res.errCode === 0) {
-        dispatch(fetchGenderSuccess(res.allCode));
-      } else {
-        dispatch(fetchGenderFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchGenderFailed());
-      console.log("Fetch Genderr Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("gender");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchGenderSuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchGenderFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchGenderFailed());
+  //     console.log("Fetch Genderr Failed", e);
+  //   }
+  // };
 };
 
 export const fetchGenderSuccess = (data) => ({
@@ -39,19 +55,19 @@ export const fetchGenderFailed = () => ({
 
 export const fetchPositionStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("position");
-      if (res && res.errCode === 0) {
-        dispatch(fetchPositionSuccess(res.allCode));
-      } else {
-        dispatch(fetchPositionFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchPositionFailed());
-      console.log("Fetch Position Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("position");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchPositionSuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchPositionFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchPositionFailed());
+  //     console.log("Fetch Position Failed", e);
+  //   }
+  // };
 };
 
 export const fetchPositionSuccess = (data) => ({
@@ -67,19 +83,19 @@ export const fetchPositionFailed = () => ({
 
 export const fetchDepartmentStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("department");
-      if (res && res.errCode === 0) {
-        dispatch(fetchDepartmentSuccess(res.allCode));
-      } else {
-        dispatch(fetchDepartmentFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchDepartmentFailed());
-      console.log("Fetch Department Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("department");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchDepartmentSuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchDepartmentFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchDepartmentFailed());
+  //     console.log("Fetch Department Failed", e);
+  //   }
+  // };
 };
 
 export const fetchDepartmentSuccess = (data) => ({
@@ -95,19 +111,19 @@ export const fetchDepartmentFailed = () => ({
 
 export const fetchMotherCompanyStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("motherCompany");
-      if (res && res.errCode === 0) {
-        dispatch(fetchMotherCompanySuccess(res.allCode));
-      } else {
-        dispatch(fetchMotherCompanyFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchMotherCompanyFailed());
-      console.log("Fetch Mother Company Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("motherCompany");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchMotherCompanySuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchMotherCompanyFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchMotherCompanyFailed());
+  //     console.log("Fetch Mother Company Failed", e);
+  //   }
+  // };
 };
 
 export const fetchMotherCompanySuccess = (data) => ({
@@ -123,19 +139,19 @@ export const fetchMotherCompanyFailed = () => ({
 
 export const fetchCertificateStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("certificate");
-      if (res && res.errCode === 0) {
-        dispatch(fetchCertificateSuccess(res.allCode));
-      } else {
-        dispatch(fetchCertificateFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchCertificateFailed());
-      console.log("Fetch Certificate Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("certificate");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchCertificateSuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchCertificateFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchCertificateFailed());
+  //     console.log("Fetch Certificate Failed", e);
+  //   }
+  // };
 };
 
 export const fetchCertificateSuccess = (data) => ({
@@ -151,19 +167,19 @@ export const fetchCertificateFailed = () => ({
 
 export const fetchRoleStart = () => {
   // type: actionTypes.FETCH_GENDER_START,
-  return async (dispatch, getState) => {
-    try {
-      let res = await getAllCodeService("role");
-      if (res && res.errCode === 0) {
-        dispatch(fetchRoleSuccess(res.allCode));
-      } else {
-        dispatch(fetchRoleFailed(res.Message));
-      }
-    } catch (e) {
-      dispatch(fetchRoleFailed());
-      console.log("Fetch Role Failed", e);
-    }
-  };
+  // return async (dispatch, getState) => {
+  //   try {
+  //     let res = await getAllCodeService("role");
+  //     if (res && res.errCode === 0) {
+  //       dispatch(fetchRoleSuccess(res.allCode));
+  //     } else {
+  //       dispatch(fetchRoleFailed(res.Message));
+  //     }
+  //   } catch (e) {
+  //     dispatch(fetchRoleFailed());
+  //     console.log("Fetch Role Failed", e);
+  //   }
+  // };
 };
 
 export const fetchRoleSuccess = (data) => ({

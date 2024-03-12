@@ -1,45 +1,94 @@
 import axios from "../axios";
+// let axiosJWT = axios.create();
+// axiosJWT.interceptors.request.use(async (config) => {
+//   let date = new Date();
+//   let decodedToken =
+// });
 const handleLogin = (email, password) => {
-  return axios.post("/api/user_login", { email, password });
-};
-
-const handleGetAllUsers = (id) => {
-  return axios.get(`/api/all-users?id=${id}`);
-};
-
-//================================================getUserJwt
-const handleGetAllUserJWT = (accessToken) => {
-  return axios.get("/api/users/read", {
-    headers: { token: `Bearer ${accessToken}` },
+  return axios.post("api/auth/login", {
+    email,
+    password,
   });
 };
 
-const handleRefreshToken = (id) => {
-  return axios.post("/api/getToken", { id: id });
+const handleGetAllCompany = async (access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return axios.post("api/auth/readCompanyList");
 };
-
-const handleAddNewUser = (data) => {
-  return axios.post("/api/users/create", data);
-};
-const handleDeleteUser = (id) => {
-  return axios.delete("/api/users/delete", {
-    data: {
-      id: id,
+const handleGetAllUsers = async (access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return axios.post("api/auth/readUser", {
+    onUploadProgress: (progressEvent) => {
+      console.log(
+        progressEvent.lengthComputable
+          ? progressEvent.total
+          : progressEvent.target.getResponseHeader("content-length") ||
+              progressEvent.target.getResponseHeader(
+                "x-decompressed-content-length"
+              )
+      );
     },
   });
 };
-export const HandleEditUser = async (data) => {
-  return await axios.put("/api/users/edit", data);
+
+const handleGetUserById = async (access_token, id) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return axios.post(`api/auth/readUserById/${id}`, {});
 };
-const getAllCodeService = async (type) => {
-  return await axios.get(`/api/allcode?type=${type}`);
+
+export const handleGetMe = async (access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return axios.post("api/auth/me");
+};
+export const HandleEditUserById = async (data, access_token, id) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/updateUserByID/${id}`, data);
+};
+
+const createNewUser = async (data, access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post("api/auth/createUser", data);
+};
+
+const deleteUserById = async (id, access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/deleteUserById/${id}`);
+};
+
+const CreatePost = async (data, access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/createPost`, data);
+};
+
+const handleGetAllPost = async (access_token) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/readPost`);
+};
+const handleGetPostById = async (access_token, id) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/readPostById/${id}`);
+};
+const updatePostById = async (access_token, data, id) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/updatePostById/${id}`, data);
+};
+
+const deletePostById = async (access_token, id) => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  return await axios.post(`api/auth/deletePostById/${id}`);
 };
 export {
   handleLogin,
   handleGetAllUsers,
-  handleAddNewUser,
-  handleDeleteUser,
-  getAllCodeService,
-  handleGetAllUserJWT,
-  handleRefreshToken,
+  handleGetUserById,
+  createNewUser,
+  deleteUserById,
+  handleGetAllCompany,
+
+  //===========================Read Post
+  CreatePost,
+  handleGetAllPost,
+  handleGetPostById,
+  updatePostById,
+  deletePostById,
 };

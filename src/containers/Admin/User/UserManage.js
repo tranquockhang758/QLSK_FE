@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { FormattedMessage } from "react-intl";
+import React, { Component, Fragment } from "react";
+
 import { connect } from "react-redux";
 import "./UserManage.scss";
 import { toast } from "react-toastify";
+import { withRouter, Link } from "react-router-dom";
 
 // Import toastify css file
 import "react-toastify/dist/ReactToastify.css";
+
 import {
   handleGetAllUsers,
-  handleAddNewUser,
-  handleDeleteUser,
-  HandleEditUser,
-  handleRefreshToken,
+  HandleEditUserById,
+  createNewUser,
 } from "../../../services/userService";
-import ModalUser from "./ModalUser";
 import { emitter } from "../../../utils/emitter";
-import ModalEditUser from "./ModalEditUser";
-import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+
 import * as actions from "../../../store/actions/index";
+import ModalConfirmDelete from "./ModalConfirmDelete";
+import "./UserManage.scss";
+
+import { handleBuildBreadCrumb } from "../../Helper/BuildBBreadCrumb";
 class UserManage extends Component {
   constructor(props) {
     super(props);
@@ -39,32 +39,31 @@ class UserManage extends Component {
       isShowModalEditUser: false,
       user_edit: {},
       isOpenModalEditUser: false,
+      listUser: [],
+      isShowModalDelete: false,
+      userCurrent: {},
+      arrUser: [],
     };
   }
 
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.accessToken === this.props.accessToken) {
-      let date = new Date();
-      let token = this.props.accessToken;
-      let decodedToken = jwtDecode(token);
-      let id = this.props.userInfo.user.id;
-      //1706111806, 1706112028.893;
-      if (decodedToken.exp <= date.getTime() / 1000) {
-        let res = await handleRefreshToken(id);
-        if (res) {
-          this.props.fetchUserStart(res.accessToken);
-        }
-      }
-    }
-  }
-  async componentDidMount() {
+  async componentDidUpdate(prevProps, prevState, snapshot) {}
+  componentDidMount() {
     this.handleGetAllUsers();
+    this.handleGetUser();
   }
+  handleGetUser = async () => {
+    let access_token = this.props.access_token;
+    let data = await handleGetAllUsers(access_token);
+    if (data && data.data) {
+      this.setState({ arrUser: data.data });
+    }
+  };
 
   handleGetAllUsers = async () => {
-    let data = await handleGetAllUsers("");
-    if (data && data.errCode === 0) {
-      this.setState({ users: data.users });
+    let access_token = this.props.access_token;
+    let data = await handleGetAllUsers(access_token);
+    if (data && data.data) {
+      this.setState({ listUser: data.data });
     }
   };
   handleOnClickAddNewUser = async () => {
@@ -78,18 +77,18 @@ class UserManage extends Component {
     this.setState({ isShowModalEditUser: !this.state.isShowModalEditUser });
   };
   createNewUser = async (data) => {
-    //============================Data lấy từ props con ở ModalUser
     try {
-      let response = await handleAddNewUser(data);
-      if (response && response.data.errCode === 0) {
-        console.log("Create new user successfully");
+      let access_token = this.props.access_token;
+      let res = await createNewUser(data, access_token);
+      if (res && res.code === 200) {
+        toast.success("Create new user successfully");
         this.setState({ isShowModal: false });
         this.handleGetAllUsers();
         //============================Sau khi thêm xong user ta emit sự kiện
         emitter.emit("EVENT_CLEAR_MODAL_DATA", data);
-      } else {
-        this.setState({ isShowModal: false });
-        console.log("Don't create user successfully " + response.data.Message);
+      } else if (res && res.code !== 200) {
+        toast.error("Email is exist in system");
+        // toast.error("Create new user unsuccessfully", res.message);
       }
     } catch (e) {
       console.log(e);
@@ -97,174 +96,309 @@ class UserManage extends Component {
   };
 
   handleDeleteUser = async (user) => {
-    let id = user.id;
-    try {
-      let response = await handleDeleteUser(id);
-      //response.message.errCode === 0 ,response.message.Message
-      if (response && response.message.errCode === 0) {
-        this.handleGetAllUsers();
-      } else {
-        console.log("Cannot delete User Because " + response.message.Message);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    this.setState({
+      isShowModalDelete: !this.state.isShowModalDelete,
+      userCurrent: user,
+    });
   };
 
-  handleEditUser = (user) => {
-    this.setState({ isShowModalEditUser: true });
-    this.setState({ user_edit: user });
+  toggleModalDeleteUser = () => {
+    this.setState({
+      isShowModalDelete: !this.state.isShowModalDelete,
+    });
   };
 
   handleEditUserFromParent = async (data) => {
     try {
-      let res = await HandleEditUser(data);
-      if (res && res.errCode === 0) {
-        toast.success("Update User Successfully");
-        this.setState({
-          isShowModalEditUser: false,
-        });
-        await this.handleGetAllUsers("");
-      } else {
-        toast.error(`${res.Message}`);
+      let access_token = this.props.access_token;
+      let id = data.id;
+      let res = await HandleEditUserById(data, access_token, id);
+      if (res && res.code === 200) {
+        this.setState({ isShowModalEditUser: !this.state.isShowModalEditUser });
+        toast.success(res.message);
+      } else if (res && res.code !== 200) {
+        toast.error(res.message);
       }
+      this.handleGetAllUsers();
     } catch (err) {
       console.log(err);
     }
   };
+
   render() {
-    let { users_jwt, listGender } = this.props;
-    let users = this.state.users;
+    let { userInfo } = this.props;
+    let { listUser, users } = this.state;
+    //ListUser là 1 array
+    let role = userInfo.role;
+    let company = userInfo.company;
+    let hrefDefault = "";
+    const space = <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>;
+    let arrLink = handleBuildBreadCrumb();
     return (
       <>
+        {/* this.props.handleAddNewUser(data); */}
         <div className="content-wrapper">
-          {/* Content Header (Page header) */}
-          <div className="content-header">
-            <div className="container-fluid">
-              <div className="row mb-2">
-                <div className="col-sm-6 col-md-12 text-center">
-                  <h1 className="m-0">
-                    <FormattedMessage id="user.manage-user" />
-                  </h1>
+          <section className="content">
+            <section className="content-header">
+              <div className="container-fluid">
+                <div className="row mb-2">
+                  <div className="col-sm-6">
+                    <h1>Danh sách người dùng</h1>
+                  </div>
+                  <div className="col-sm-6">
+                    <ol className="breadcrumb float-sm-right">
+                      {arrLink &&
+                        arrLink.length > 0 &&
+                        arrLink.map((item, index) => {
+                          return (
+                            <Link
+                              to={item.link}
+                              key={index}
+                              className={"breadcrumb-item"}
+                            >
+                              {item.text}
+                            </Link>
+                          );
+                        })}
+                    </ol>
+                  </div>
                 </div>
               </div>
+              {/* /.container-fluid */}
+            </section>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="card">
+                    <div className="card-header  bg-primary d-flex">
+                      {/* <h3 className="card-title">Quản lí người dùng</h3> */}
+
+                      {/* <div className="card-tools">
+                        <button
+                          type="button"
+                          className="btn btn-tool"
+                          data-card-widget="collapse"
+                          title="Collapse"
+                        >
+                          <i className="fas fa-minus" />
+                        </button>
+                      </div> */}
+                    </div>
+                    {/* /.card-header */}
+                    <div className="card-body table-responsive-md table">
+                      <table className="table borderless table-user-manage">
+                        <thead>
+                          <tr className="text-center thead-table trow-head">
+                            <th>#</th>
+                            <th>Họ tên</th>
+                            <th>Công ty</th>
+                            <th>Tổng công ty</th>
+                            <th>Vai trò</th>
+                            <th>Quyền truy cập</th>
+                            <th>Sửa</th>
+                            <th>Xóa</th>
+                            <th>View</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {listUser &&
+                            listUser.length > 0 &&
+                            listUser.map((item, index) => {
+                              return (
+                                <tr
+                                  className="text-center tbody-table"
+                                  key={index}
+                                >
+                                  <td>{index}</td>
+                                  <td>{item.name}</td>
+                                  <td>{item.company}</td>
+                                  <td>
+                                    {item.motherCompany
+                                      ? item.motherCompany
+                                      : ""}
+                                  </td>
+                                  <td>{item.role ? item.role : ""}</td>
+                                  <td>
+                                    {item.levelOfAdmin ? item.levelOfAdmin : ""}
+                                  </td>
+                                  {/* //=============================Edit khi là
+                                  admin hoặc moderator hoặc chỉ khi là chính nó */}
+                                  {/* Check role có phải Moderator không và có cùng nhà máy không */}
+                                  {role === "Admin" ? (
+                                    <>
+                                      <td>
+                                        <button
+                                          className="button-edit-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/edit/${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fas fa-edit"></i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        <button
+                                          className="button-delete-user"
+                                          onClick={() => {
+                                            this.handleDeleteUser(item);
+                                          }}
+                                        >
+                                          <i className="fas fa-trash"></i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/view?id=${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {/* //Nếu người dùng là Moderator hiện button cho cùng công ty */}
+
+                                  {role === "Moderator" &&
+                                  company === item.company ? (
+                                    <>
+                                      <td>
+                                        <button
+                                          className="button-edit-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/edit/${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fas fa-edit"></i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        <button
+                                          className="button-delete-user"
+                                          onClick={() => {
+                                            this.handleDeleteUser(item);
+                                          }}
+                                        >
+                                          <i className="fas fa-trash"></i>
+                                        </button>
+                                      </td>
+                                      <td>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/view?id=${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {role === "Moderator" &&
+                                  company !== item.company ? (
+                                    <>
+                                      <td>{hrefDefault.toString()}</td>
+                                      <td>{hrefDefault.toString()}</td>
+                                      <td>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/view?id=${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {role === "User" &&
+                                  company === item.company ? (
+                                    <>
+                                      <td>{space}</td>
+                                      <td>{space}</td>
+                                      <td>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/view?id=${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {role === "User" &&
+                                  company !== item.company ? (
+                                    <>
+                                      <td>{space}</td>
+                                      <td>{space}</td>
+                                      <td>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() => {
+                                            this.props.history.push(
+                                              `/admin/user/view?id=${item.id}`
+                                            );
+                                          }}
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </td>
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                    {/* /.card-body */}
+                  </div>
+                </div>
+                {/* /.col */}
+              </div>
+              {/* /.row */}
             </div>
             {/* /.container-fluid */}
-          </div>
-          {/* /.content-header */}
-          <ModalUser
-            isShowModal={this.state.isShowModal}
-            toggleFromParent={this.toggleModalUser}
-            className={"modal-user-container"}
-            handleAddNewUser={this.createNewUser}
-          />
-          {this.state.isShowModalEditUser ? (
-            <ModalEditUser
-              isShowModalEditUser={this.state.isShowModalEditUser}
-              toggleModalEditUserFromParent={this.toggleModalEditUser}
-              current_user={this.state.user_edit}
-              handleEditUserFromParent={this.handleEditUserFromParent}
-              listGender={listGender}
-            />
-          ) : (
-            ""
-          )}
-          <div className="mx-1">
-            <button
-              className="btn btn-primary px-3"
-              onClick={this.handleOnClickAddNewUser}
-            >
-              <i className="fas fa-plus"></i>
-              <label className="add-users">Add New Users</label>
-            </button>
-          </div>
-
-          {/* //====================================================Table */}
-          <div className="col-12 mx-1">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">
-                    <FormattedMessage id="user.name" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="user.email" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="user.numberPhone" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="user.address" />
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id="user.task" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {users &&
-                  users.length > 0 &&
-                  users.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{item.id}</td>
-                        <td>
-                          {item.lastName + " "}
-                          {item.firstName}
-                        </td>
-                        <td>{item.email}</td>
-                        <td>{item.phoneNumber}</td>
-                        <td>{item.address}</td>
-                        <td>
-                          <button
-                            className="button-edit-user"
-                            onClick={() => this.handleEditUser(item)}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="button-delete-user btn-danger"
-                            onClick={() => this.handleDeleteUser(item)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-
-                {users_jwt &&
-                  users_jwt.map((item, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{item.id}</td>
-                        <td>
-                          {item.lastName + " "}
-                          {item.firstName}
-                        </td>
-                        <td>{item.email}</td>
-                        <td>{item.phoneNumber}</td>
-                        <td>{item.address}</td>
-                        <td>
-                          <button
-                            className="button-edit-user"
-                            onClick={() => this.handleEditUser(item)}
-                          >
-                            <i className="fas fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            className="button-delete-user btn-danger"
-                            onClick={() => this.handleDeleteUser(item)}
-                          >
-                            <i className="fas fa-trash-alt"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+          </section>
+          <div className="content-header">
+            <div className="container-fluid">
+              {this.state.isShowModalDelete ? (
+                <ModalConfirmDelete
+                  isShowModal={this.state.isShowModalDelete}
+                  toggleFromParent={this.toggleModalDeleteUser}
+                  userCurrent={this.state.userCurrent}
+                  FetchUserAfterUpdate={this.handleGetAllUsers}
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </>
@@ -274,17 +408,20 @@ class UserManage extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    id: state.user.user_id,
+    access_token: state.user.access_token,
     userInfo: state.user.userInfo,
-    accessToken: state.user.accessToken,
-    users_jwt: state.user.users,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    processLogout: () => dispatch(actions.processLogout()),
     fetchUserStart: (accessToken) =>
       dispatch(actions.fetchUserStart(accessToken)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManage);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(UserManage)
+);

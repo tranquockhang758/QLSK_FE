@@ -2,6 +2,9 @@
     width: 100px;
     height: 100px;
 }
+.banner-logo{
+    width: 100% !important;
+}
 .user-panel .info {
     display: flex;
     justify-content: center;
@@ -12,4 +15,7 @@
         font-size: 20px;
     }
     
+}
+.content-header{
+    padding: 0px !important;
 }
