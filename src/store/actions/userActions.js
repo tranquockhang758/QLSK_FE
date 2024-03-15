@@ -39,8 +39,9 @@ export const fetchUserStart = (accessToken) => {
   return async (dispatch, getState) => {
     try {
       let res = await handleGetAllUsers(accessToken);
-      if (res && res.errCode === 0) {
+      if (res && res.code ===200) {
         dispatch(fetchUserSuccess(res.users, accessToken));
+        console.log("Check res User",res);
       } else if (res && res.errCode !== 0) {
         dispatch(fetchUserFailed(res.Message));
       }
@@ -92,3 +93,8 @@ export const getViewByPost = (view) => ({
   type: actionTypes.GET_VIEW_BY_POST,
   view: view,
 });
+
+
+export const processLockScreen = () => ({
+  type:actionTypes.UPDATE_LOCKSCREEN
+})

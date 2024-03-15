@@ -22,6 +22,7 @@
     background: #3498db;
     color:#ecf0f1;
     font-size: 18px;
+    opacity: 1;
 }
 .button-edit-user:hover{
     opacity: 0.6;
@@ -34,6 +35,7 @@
     background: red;
     color:#ecf0f1;
     font-size: 18px;
+    opacity: 0.8;
 }
 .button-delete-user:hover{
     opacity: 0.6;
@@ -46,10 +48,12 @@
     background: #78e08f;
     color:#ecf0f1;
     font-size: 18px;
+    opacity: 0.8;
 }
 .button-view-user:hover{
-    cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.6;
+    transition: all 0.5 linear;
+
 }
 // .contnet-wrapper{
 //     min-height: 300px !important;
@@ -122,17 +126,29 @@
 .css-6hp17o-MuiList-root-MuiMenu-list{
     padding-bottom: 0px !important;
     border-radius: 3px;
-    overflow: hidden;
-    height: 250px;
+    overflow: hidden !important;
+    // height: 250px;
 
-    .MuiTablePagination-menuItem{
-        width: 60px;
+    .MuiTablePagination-menuItem,.css-1gs62wq{
+        //Từng item trong menu
+        width: 100%;
         height: 36px;
-        display: block;
+        display: block !important;
         line-height: 2.5;
-        padding :6px 16px;
+        padding :6px 16px !important;
         text-align: center;
+        width: 100%;
     }
+}
+.MuiTablePagination-menuItem{
+    //Từng item trong menu
+    width: 100%;
+    height: 36px;
+    display: block !important;
+    line-height: 2.5;
+    padding :6px 16px !important;
+    text-align: center;
+    width: 100%;
 }
 ///CSS position menu dropdown
 .css-6hp17o-MuiList-root-MuiMenu-list{
@@ -219,10 +235,7 @@
     }
 }
 
-//Chu trong list box chon cong ty me
-.css-pwxzbm{
-    color: rgba(0, 0, 0, 0.65);
-}
+
 
 //Font size for pagination
 .css-i4bv87-MuiSvgIcon-root{
@@ -259,11 +272,24 @@ table{
 }
 
 //Menu list
+//Select filter 2/5/10/15
 .css-r8u8y9{
     height: 250px !important;
 }
-//Menu item
+
+//Select filter motherCompany serverr
+.css-jim9fd{
+    height: 250px !important;
+}
+//Menu item padding
 .css-1km1ehz{
     padding: 10px !important;
+}
+//Chu trong list box chon cong ty me
+.css-pwxzbm{
+    color: rgba(0, 0, 0, 0.65);
+    width: 60px !important;
+    height: 152px !important;
+    overflow: hidden !important;
 }
 

@@ -33,6 +33,15 @@ import ViewPost from "../containers/Admin/Post/ViewPost";
 import CustomSelect from "../containers/Admin/User/CustomSelect";
 import MainSpeech from "../containers/Admin/SpeechRecognition/MainSpeech";
 import myPost from "../containers/Admin/Post/myPost";
+
+
+import Header from "../containers/inc/Header"
+import Sidebar from "../containers/inc/Sidebar";
+import Footer from "../containers/inc/Footer";
+import ErrorPage from "../containers/inc/ErrorPage";
+import FaceId from "../containers/Admin/FaceAPI/FaceId";
+import ErrorMod from "../containers/inc/ErrorMod";
+
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -59,16 +68,23 @@ class Admin extends Component {
   }
   componentDidUpdate(prevProps) {}
   render() {
+    let {isLoggedIn,isLockScreen} = this.props;
     return (
       <React.Fragment>
+        {/* <Sidebar/> */}
+        {isLoggedIn && !isLockScreen ?<Header/> : ""}
+        {isLoggedIn && !isLockScreen ? <Sidebar/> : ""}
+
         <Switch>
           {/* //==========================================================User */}
+          <Route path={path.Error} exact component={ErrorPage} />
+          <Route path={path.Error_Moderator} exact component={ErrorMod} />
           <Route path={path.ADMIN} exact component={Report} />
           <Route path={path.CREATE_USER} exact component={Create} />
-          {/* <Route path={path.LIST_USER} exact component={User} /> */}
+          <Route path={path.LOCKSCREEN} exact component={LockScreen} />
           <Route path={path.LIST_USER} exact component={Datatable} />
           <Route path={path.PROFILE} component={Profile} />
-          <Route path={path.LOCKSCREEN} exact component={LockScreen} />
+         
           <Route path={path.EDIT_USER} exact component={Edit} />
           <Route path={path.LOG_OUT} exact component={Logout} />
           <Route path={path.CHANGE_PASSWORD} exact component={ChangePassword} />
@@ -87,16 +103,22 @@ class Admin extends Component {
           <Route path={path.MY_POST} exact component={myPost} />
 
           <Route path={path.CUSTOM_SELECT} exact component={CustomSelect} />
-
+          {/* =================================Nhận diện giọng nói */}
           <Route path={path.SPEECH} exact component={MainSpeech} />
+          {/* =================================Nhận diện khuôn măth */}
+          <Route path={path.FACE_ID} exact component={FaceId} />
+         
           {/* {isLoggedIn ? <Route path={path.ADMIN} component={Admin}/> : ""} */}
           {/* <Route
             component={() => {
               return <Redirect to={"/admin"} />;
             }}
-          /> */}
-        </Switch>
+          /> */} 
+        </Switch> 
+        {isLoggedIn && !isLockScreen ? <Footer/> : ""}
       </React.Fragment>
+
+      
     );
   }
 }
@@ -110,14 +132,13 @@ const mapStateToProps = (state) => {
     id: state.user.user_id,
     userInfo: state.user.userInfo,
     isLoadingPage: state.user.isLoadingPage,
+    isLockScreen:state.user.isLockScreen
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     processLogout: () => dispatch(actions.processLogout()),
-    updateToken: () => dispatch(actions.updateToken()),
-    updateLoadingPage: () => dispatch(actions.updateLoadingPage()),
   };
 };
 

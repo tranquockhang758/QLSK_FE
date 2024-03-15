@@ -121,24 +121,33 @@
 .css-16c50h-MuiInputBase-root-MuiTablePagination-select,.css-rmmij8{
     top: -6px !important;
 }
-.css-6hp17o-MuiList-root-MuiMenu-list,.css-pwxzbm {
-    padding-bottom: 0px !important;
-    border-radius: 3px;
-    overflow: hidden;
-    width: 100% !important;
-    .MuiTablePagination-menuItem,.css-1gs62wq{
-        width: 60px;
-        height: 36px;
-        display: block;
-        line-height: 2.5;
-        padding :6px 16px;
-        text-align: center;
-    }
-}
 ///CSS position menu dropdown
 .css-6hp17o-MuiList-root-MuiMenu-list{
     font-size: 12px !important;
     color:#1e293b;
+}
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    padding-bottom: 5px 0px 5px 0px;
+    border-radius: 3px;
+    overflow: hidden !important;
+    .MuiTablePagination-menuItem,.css-1gs62wq{
+        width: 100%;
+        height: 36px;
+        display: block !important;
+        line-height: 2.5;
+        padding :6px 16px !important;
+        text-align: center;
+        width: 100%;
+    }
+}
+.MuiTablePagination-menuItem{
+        width: 100%;
+        height: 36px;
+        display: block !important;
+        line-height: 2.5;
+        padding :6px 16px !important;
+        text-align: center;
+        width: 100%;
 }
 //=========================================================MotherCompany
 
@@ -186,10 +195,6 @@
 .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
     padding: 5px;
 }
-
-
-
-
 .row-header{
     display: flex;
     justify-content: space-between;
@@ -219,10 +224,7 @@
     }
 }
 
-//Chu trong list box chon cong ty me
-.css-pwxzbm{
-    color: rgba(0, 0, 0, 0.65);
-}
+
 
 //Font size for pagination
 .css-i4bv87-MuiSvgIcon-root{
@@ -266,3 +268,11 @@ table{
 .css-1km1ehz:hover{
     opacity: 0.8;
 }
+
+.css-pwxzbm{
+    color: rgba(0, 0, 0, 0.65);
+    width: 60px !important;
+    height: 152px !important;
+    overflow: hidden !important;
+}
+

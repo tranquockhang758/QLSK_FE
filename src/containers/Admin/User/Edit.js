@@ -147,30 +147,65 @@ class Edit extends Component {
     if (decodeToken !== "") {
       if (decodeToken.exp > date.getTime() / 1000) {
         try {
-          this.handleGetAllCompany();
-          let res = await handleGetUserById(access_token, id);
-          if (res && res.code === 200) {
-            this.setState({ isLoadingPreloader: false });
-            let users = res.data;
-            this.setState({
-              email: users.email,
-              gender: users.gender,
-              name: users.name,
-              birthday: users.birthday,
-              mobile: users.mobile,
-              thumbnailUrl: users.thumbnailUrl,
-              role: users.role,
-              // levelOfAdmin: users.levelOfAdmin,
-              // position: users.position,
-              certificate: users.certificate,
-              motherCompany: users.motherCompany,
-              company: users.company,
-              // department: users.department,
-            });
-          } else {
-            this.setState({ isLoadingPreloader: false });
-            console.log(res.message);
+          let role = this.props.userInfo.role;
+          let company = this.props.userInfo.company;
+          // console.log("Check",role)
+            if(role === "Admin"){
+              this.handleGetAllCompany();
+              let res = await handleGetUserById(access_token, id);
+              if (res && res.code === 200) {
+                let users = res.data;
+                this.setState({ isLoadingPreloader: false });
+                this.setState({
+                  email: users.email,
+                  gender: users.gender,
+                  name: users.name,
+                  birthday: users.birthday,
+                  mobile: users.mobile,
+                  thumbnailUrl: users.thumbnailUrl,
+                  role: users.role,
+                  certificate: users.certificate,
+                  motherCompany: users.motherCompany,
+                  company: users.company,
+                });
+            }   
+            else {
+              this.setState({ isLoadingPreloader: false });
+              console.log(res.message);
+            }
+            }
+            if(role==="Moderator"){
+              
+              let res = await handleGetUserById(access_token, id);
+              let userCompany = res.data?res.data.company : "";
+              //Nếu moderator cùng công ty
+              if(userCompany===company){
+                let users = res.data;
+                this.setState({ isLoadingPreloader: false });
+                this.setState({
+                  email: users.email,
+                  gender: users.gender,
+                  name: users.name,
+                  birthday: users.birthday,
+                  mobile: users.mobile,
+                  thumbnailUrl: users.thumbnailUrl,
+                  role: users.role,
+                  certificate: users.certificate,
+                  motherCompany: users.motherCompany,
+                  company: users.company,
+                });
+              }
+              //Nếu moderator không cùng công ty
+              else{
+                return this.props.history.push("/admin/errorMod");
+              }
+            }
+            
+            //Nếu role là Moderator và khác công ty => Redirect sang trang khác
+           if(role === "User"){
+            return this.props.history.push("/admin/error");
           }
+          
         } catch (e) {
           console.log(e);
         }

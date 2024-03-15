@@ -1,2 +1,14 @@
-.lockscreen-logo{}
+.lockscreen-logo{
+    img{
+        width: 100%;
+    }
+}
 .lockscreen-logo:hover{cursor: pointer;}
+.text-company{
+    display: inline-block;
+    color:#007bff;
+    margin-bottom: 0px !important;
+}
+.text-company:hover{
+    color: #17a2b8;
+}

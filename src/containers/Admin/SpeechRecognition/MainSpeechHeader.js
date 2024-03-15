@@ -2,7 +2,15 @@ import { useRef, useState, useEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-const MainSpeechHeader = ({ callBackFunction, microphoneParentRef }) => {
+
+import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+//B1 tạo function connect với redux
+// import { toggleOpenShop } from './store/actions';
+const MainSpeechHeader = ({ callBackGetListUser,callBackFunction, microphoneParentRef,props }) => {
+  const dispatch = useDispatch();
+
+
   useEffect(() => {
     microphoneParentRef.current = handleListingFromParent;
   }, [microphoneParentRef.current]);
@@ -16,9 +24,51 @@ const MainSpeechHeader = ({ callBackFunction, microphoneParentRef }) => {
       }
     }, 5000);
   }
-  const { transcript, resetTranscript } = useSpeechRecognition();
+  const commands = [
+    {
+      command: "open *",
+      callback: (website) => {
+        window.open("http://" + website.split(" ").join(""));
+      },
+    },
+    {
+      command: "change background colour to *",
+      callback: (color) => {
+        document.body.style.background = color;
+      },
+    },
+    {
+      command: "reset",
+      callback: () => {
+        handleReset();
+      },
+    },
+    ,
+    {
+      command: "nhận dữ liệu",
+      callback: () => {
+        handleListing();
+        callBackFunction(transcript);
+      },
+    },
+    {
+      command: "lịch sử sự cố",
+      callback: () => {
+        handleListing();
+        callBackFunction(transcript);
+      },
+    },
+    {
+      command: "danh sách người dùng",
+      callback: () => {
+        handleListing();
+        callBackGetListUser(transcript);
+      },
+    },
+  ];
+  const { transcript, resetTranscript } = useSpeechRecognition({commands});
   const [isListening, setIsListening] = useState(false);
-  const [message, setMessage] = useState();
+  // const [background, setBackground] = useState("red")
   const microphoneRef = useRef();
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return (
@@ -32,10 +82,8 @@ const MainSpeechHeader = ({ callBackFunction, microphoneParentRef }) => {
     microphoneRef.current.classList.add("listening");
     SpeechRecognition.startListening({
       continuous: true,
+      language:"vi-VN"
     });
-    if (transcript.length > 0) {
-      callBackFunction(transcript);
-    }
   };
   const stopHandle = () => {
     setIsListening(false);
@@ -46,10 +94,9 @@ const MainSpeechHeader = ({ callBackFunction, microphoneParentRef }) => {
     stopHandle();
     resetTranscript();
   };
-  if (transcript.length > 0) {
-  }
+
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" >
       <div className="microphone-wrapper">
         <div className="mircophone-container">
           <div
@@ -81,4 +128,11 @@ const MainSpeechHeader = ({ callBackFunction, microphoneParentRef }) => {
     </div>
   );
 };
-export default MainSpeechHeader;
+const mapStateToProps = (state) => ({
+  isOpen: state.isOpen,
+});
+
+const mapDispatch = {
+  
+};
+export default connect(mapStateToProps, mapDispatch)(MainSpeechHeader);

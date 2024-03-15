@@ -53,6 +53,9 @@ const actionTypes = Object.freeze({
   UPDATE_LOADING_PAGE: "UPDATE_LOADING_PAGE",
 
   GET_VIEW_BY_POST: "GET_VIEW_BY_POST",
+
+
+  UPDATE_LOCKSCREEN: "UPDATE_LOCKSCREEN",
 });
 
 export default actionTypes;

@@ -34,7 +34,6 @@ import ModalConfirmDelete from "../ModalConfirmDelete";
 import { handleBuildBreadCrumb } from "../../../Helper/BuildBBreadCrumb";
 import { jwtDecode } from "jwt-decode";
 import LogoutModal from "../../../inc/LogoutModal.js";
-import TableComponent from "./TableComponent.js";
 function descendingComparator(a, b, orderBy) {
   //b[orderBy] => cột ta cần sắp sếp => PhamDuyPhuoc hay TranQuocKhang với a,b là tất cả các trường
 
@@ -64,6 +63,7 @@ export default function Datatable(props) {
   const user = useSelector((state) => state.user.userInfo);
   const role = user.role;
   const company = user.company;
+  const idUser = user.id;
   const [listMotherCompany, setListMotherCompany] = React.useState([]);
   const [listUser, setListUser] = React.useState([]);
   const [progress, setProgress] = React.useState(0);
@@ -78,12 +78,13 @@ export default function Datatable(props) {
   const [orderDirection, setOrderDirection] = React.useState("asc");
   const [valueToOrderBy, setValueToOrderBy] = React.useState("name");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [rowPerPageOptions, setRowPerPageOption] = React.useState([
-    2, 5, 10, 15,
+    25, 50, 100, 200,
   ]);
   const [listPost, setListPost] = React.useState([]);
   const [listNewPost, setListNewPost] = React.useState([]);
+  const [postCurrent, setPostCurrent] = React.useState([]);
   const [filterfn, setFilterfn] = React.useState({
     fn: (items) => {
       return items;
@@ -101,7 +102,6 @@ export default function Datatable(props) {
     },
   });
 
-  const [postCurrent, setPostCurrent] = React.useState({});
   const [isShowModalDelete, setIsShowModalDelete] = React.useState(false);
   const space = <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>;
   const [searchParams] = useState(["title", ""]);
@@ -301,9 +301,7 @@ export default function Datatable(props) {
       // console.log("Check newpost", modifiedArray);
     }
   };
-
-  //Lấy tất cả bài post
-  const GetAllPost = async () => {
+  const getListAuthor1 = (listPostAfterFilter) => {
     let StringListAuthor = [];
 
     let newStringAuthor = [];
@@ -312,33 +310,82 @@ export default function Datatable(props) {
     let listArrAuthor2 = [];
     let arrUser = [];
     let listArrAuthor = [];
-    let res = await handleGetAllPost(access_token);
-    if (res && res.code === 200) {
-      setIsLoading(false);
-      // setIsLoading(false);
-      //Ta có listPost => Chạy vòng
-      res.data.map((item, index) => {
-        StringListAuthor.push(item.author);
-      });
+    listPostAfterFilter.map((item, index) => {
+      StringListAuthor.push(item.author);
+    });
+
+    if (StringListAuthor.length > 0) {
       for (let i = 0; i < StringListAuthor.length; i++) {
+        //push vào mãng với id = id của listUser
+
         newStringAuthor.push(StringListAuthor[i].split("-"));
         newArrAuthor.push(newStringAuthor[i].filter((item) => item.length > 0));
       }
-      if (StringListAuthor.length > 0) {
-        for (let i = 0; i < StringListAuthor.length; i++) {
-          //push vào mãng với id = id của listUser
 
-          newStringAuthor.push(StringListAuthor[i].split("-"));
-          newArrAuthor.push(
-            newStringAuthor[i].filter((item) => item.length > 0)
-          );
+      for (let i = 0; i < newArrAuthor.length; i++) {
+        if (newArrAuthor[i].length === 1) {
+          let id = parseInt(newArrAuthor[i]);
+          let user = listArrUser.filter((item) => item.id === id);
+          listArrAuthor.push(user[0].name);
+        } else if (newArrAuthor[i].length >= 2) {
+          //Ta có mãng gồm 2 mãng con
+          let newData = newArrAuthor[i].map((item) => {
+            let id = parseInt(item);
+            let userNow = listArrUser.filter((item) => item.id === id);
+            arrUser.push(userNow[0].name);
+          });
+
+          listArrAuthor2.push(arrUser.join("-"));
         }
+      }
 
+      for (let i = 0; i < listArrAuthor2.length; i++) {
+        listArrAuthor.push(listArrAuthor2[i]);
+      }
+
+      //Nếu có 2 id ta phải join thành 2 tên Trần Quốc Khang - Phạm Duy Phước
+      const modifiedArray = listPostAfterFilter.map((item, index) => {
+        return { ...item, newAuthor: listArrAuthor[index] };
+      });
+      return modifiedArray;
+    }
+  };
+  //Lấy tất cả user
+  const GetAllPost = async () => {
+    //Xử lí bài viết
+    let StringListAuthor = [];
+
+    let newStringAuthor = [];
+    let newArrAuthor = [];
+
+    let listArrAuthor2 = [];
+    let arrUser = [];
+    let listArrAuthor = [];
+    let StringAuthor = [];
+
+    //Xử lí user
+    if(listArrUser.length>0){
+      let res = await handleGetAllPost(access_token);
+      if (res && res.code === 200) {
+        setIsLoading(false);
+        let listPost = res.data;
+        // setIsLoading(false);
+        //Ta có listPost => Chạy vòng
+        res.data.map((item, index) => {
+          StringAuthor.push(item.author.split("-"));
+        });
+  
+        //Bước 1 ta xử lí lấy tất cả bài viết có id trùng với id của user
+        for (let i = 0; i < StringAuthor.length; i++) {
+          newArrAuthor.push(StringAuthor[i].filter((item) => item.length > 0));
+        }
+        console.log("Chcek",newArrAuthor)
         for (let i = 0; i < newArrAuthor.length; i++) {
           if (newArrAuthor[i].length === 1) {
             let id = parseInt(newArrAuthor[i]);
             let user = listArrUser.filter((item) => item.id === id);
-            listArrAuthor.push(user[0].name);
+            // console.log("Chec userr",user);
+            listArrAuthor.push( user[0].name);
           } else if (newArrAuthor[i].length >= 2) {
             //Ta có mãng gồm 2 mãng con
             let newData = newArrAuthor[i].map((item) => {
@@ -346,51 +393,51 @@ export default function Datatable(props) {
               let userNow = listArrUser.filter((item) => item.id === id);
               arrUser.push(userNow[0].name);
             });
-
+  
             listArrAuthor2.push(arrUser.join("-"));
           }
         }
-
+  
         for (let i = 0; i < listArrAuthor2.length; i++) {
           listArrAuthor.push(listArrAuthor2[i]);
         }
+  
         //Nếu có 2 id ta phải join thành 2 tên Trần Quốc Khang - Phạm Duy Phước
-        const modifiedArray = res.data.map((item, index) => {
+        const modifiedArray = listPost.map((item, index) => {
           return { ...item, newAuthor: listArrAuthor[index] };
         });
-        // return modifiedArray;
         setListPost(modifiedArray);
-        // console.log("Check newpost", modifiedArray);
+      }
+      if (res && res.message) {
+        console.log(res.message);
       }
     }
-    if (res && res.message) {
-      console.log(res.message);
-    }
+    
   };
 
-  const getAllCompany = async () => {
-    try {
-      let arrMotherCompany = [];
-      let newArrMotherCompany = [];
-      let res = await handleGetAllCompany(access_token);
-      if (res && res.code === 200) {
-        res.data.map((item, index) => {
-          arrMotherCompany.push(item.motherCompany);
-        });
-        //Lấy data từ bảng công ty chứa cả công ty meh
-      }
-      if (arrMotherCompany.length > 0) {
-        for (let i = 0; i < arrMotherCompany.length; i++) {
-          if (!newArrMotherCompany.includes(arrMotherCompany[i])) {
-            newArrMotherCompany.push(arrMotherCompany[i]);
-          }
-        }
-        setListMotherCompany(newArrMotherCompany);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getAllCompany = async () => {
+  //   try {
+  //     let arrMotherCompany = [];
+  //     let newArrMotherCompany = [];
+  //     let res = await handleGetAllCompany(access_token);
+  //     if (res && res.code === 200) {
+  //       res.data.map((item, index) => {
+  //         arrMotherCompany.push(item.motherCompany);
+  //       });
+  //       //Lấy data từ bảng công ty chứa cả công ty meh
+  //     }
+  //     if (arrMotherCompany.length > 0) {
+  //       for (let i = 0; i < arrMotherCompany.length; i++) {
+  //         if (!newArrMotherCompany.includes(arrMotherCompany[i])) {
+  //           newArrMotherCompany.push(arrMotherCompany[i]);
+  //         }
+  //       }
+  //       setListMotherCompany(newArrMotherCompany);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   const getAllUser = async () => {
     try {
       let arrUser = [];
@@ -433,13 +480,6 @@ export default function Datatable(props) {
       if (decodeToken.exp > date.getTime() / 1000) {
         isMounted.current = true;
         getAllUser();
-
-        // if (listArrUser.length > 0) {
-        //   GetAllPost();
-        // }
-        // GetAllPost();
-        // getAllCompany();
-
         window.addEventListener("resize", handleWindowResize);
         function handleWindowResize() {
           setWindowSize(window.innerWidth);
@@ -464,7 +504,6 @@ export default function Datatable(props) {
     setWindowSize(value);
   };
   const arrLink = handleBuildBreadCrumb();
-
   return (
     <div className="content-wrapper">
       {/* <TableComponent></TableComponent> */}

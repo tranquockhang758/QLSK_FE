@@ -30,6 +30,7 @@ const userPersistConfig = {
     "userInfo",
     "isLoadingPage",
     "view",
+    "isLockScreen"
   ],
 };
 

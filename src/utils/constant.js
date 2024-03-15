@@ -28,6 +28,10 @@ export const path = {
 
   CUSTOM_SELECT: "/admin/CustomSelect",
   SPEECH: "/admin/speech",
+  SPEECHJS: "/admin/speechJS",
+  Error: "/admin/error",
+  Error_Moderator: "/admin/errorMod",
+  FACE_ID: "/admin/faceId",
 };
 
 export const languages = {

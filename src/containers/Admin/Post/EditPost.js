@@ -50,6 +50,7 @@ class EditPost extends Component {
       attachment: "",
       listUser: [],
       arrListUser: [],
+      userId:0,
       contentAfterCallApi: "",
       image: null,
       isLoadingPreloader: true,
@@ -196,7 +197,7 @@ class EditPost extends Component {
     let res = await handleGetPostById(access_token, id);
     let company = this.props.userInfo.company;
     // console.log("Check state", this.state.arrListUser);
-    if (res && res.code === 200) {
+    if (res && res.code === 200 && res.data.company === company) {
       //https://upload.httpbridge.com//uploads_file/
       let data = res.data;
       //Thực hiện tách chuỗi và lấy tên + url của data
@@ -291,7 +292,12 @@ class EditPost extends Component {
         benefit: data.benefit,
         attachment: data.attachment,
         isOpenLogoutModal: false,
+        userId:data.userId
       });
+    }
+    //Nếu gọi API và xác địn người dùng không cùng công ty => ta điều hướng về 404
+    if(res && res.data.company !== company){
+      this.props.history.push("/admin/errorMod");
     }
   };
   handleGetAllUsers = async () => {
@@ -326,8 +332,10 @@ class EditPost extends Component {
           500
         );
         try {
+          //B1/Lấy data từ local Storage ra => so sánh với Post hiện tại xem có dùng là user đó không
           this.handleGetAllUsers();
           this.handleGetPost();
+          //Sau khi có id ta sẽ so sánh 
         } catch (e) {
           console.log(e);
         }

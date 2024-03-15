@@ -8,7 +8,7 @@ import banner from "../../assets/images/logo.png";
 import bannerEVN from "../../assets/images/banner.jpg";
 import user1 from "../../assets/images/user1-128x128.jpg";
 import MainSpeechHeader from "../Admin/SpeechRecognition/MainSpeechHeader";
-import MainSpeech from "../Admin/SpeechRecognition/MainSpeech";
+import PropTypes from "prop-types";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -34,9 +34,20 @@ class Header extends Component {
 
   //Lấy data từ con
   callBackFunction = (data) => {
-    console.log(data);
+    //Sau khi có data ta thực hiện update redux
+    console.log("Check data from child",data);
+    //Khởi tạo redux
   };
 
+  callBackGetListUser = (data) => {
+    let access_token = this.props.access_token;
+    console.log("Check",data);
+    this.props.fetchUserStart(access_token);
+  }
+  handleClickMicrophone = (e) => {
+    e.preventDefault();
+    this.microphoneParentRef.current();
+  } 
   render() {
     let hrefDefault = "";
     //Đến mức 570 thì độ rộng của dropdown menu bị mất
@@ -98,11 +109,7 @@ class Header extends Component {
           {/* Right navbar links */}
           <ul className="navbar-nav ml-auto navbar-right">
             {/* Navbar Search */}
-            <li className="nav-item item-microphone">
-              <span>
-                zzz{this.state.transcript ? this.state.transcript : ""}
-              </span>
-            </li>
+           
             <li className="nav-item item-search">
               <a
                 className="nav-link"
@@ -270,7 +277,7 @@ class Header extends Component {
             </li>
             <li
               className="nav-item item-microphone"
-              onClick={() => this.microphoneParentRef.current()}
+              onClick={(e) => {this.handleClickMicrophone(e)}}
             >
               <i className="fas fa-microphone"></i>
             </li>
@@ -282,6 +289,7 @@ class Header extends Component {
           <MainSpeechHeader
             microphoneParentRef={this.microphoneParentRef}
             callBackFunction={this.callBackFunction}
+            callBackGetListUser={this.callBackGetListUser}
           />
         </div>
 
@@ -304,6 +312,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     processLogout: () => dispatch(actions.processLogout()),
     changeLanguage: (language) => dispatch(actions.ChangeLanguage(language)),
+    fetchUserStart : (access_token) => dispatch(actions.fetchUserStart(access_token))
   };
 };
 

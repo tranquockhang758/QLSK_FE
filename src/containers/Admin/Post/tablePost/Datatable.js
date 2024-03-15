@@ -78,9 +78,9 @@ export default function Datatable(props) {
   const [orderDirection, setOrderDirection] = React.useState("asc");
   const [valueToOrderBy, setValueToOrderBy] = React.useState("name");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [rowPerPageOptions, setRowPerPageOption] = React.useState([
-    2, 5, 10, 15,
+    25, 50, 100, 200,
   ]);
   const [listPost, setListPost] = React.useState([]);
   const [listNewPost, setListNewPost] = React.useState([]);

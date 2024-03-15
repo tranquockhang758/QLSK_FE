@@ -24,6 +24,7 @@ import "./App.scss";
 import Header from "./inc/Header";
 import Footer from "./inc/Footer";
 import Sidebar from "./inc/Sidebar";
+import LockScreen from "./Admin/User/LockScreen";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -54,8 +55,8 @@ class App extends Component {
 
               <div className="content-container">
                 <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
-                  {isLoggedIn ? <Header /> : ""}
-                  {isLoggedIn ? <Sidebar /> : ""}
+                  {/* {isLoggedIn ? <Header /> : ""}
+                  {isLoggedIn ? <Sidebar /> : ""} */}
                   <Switch>
                     <Route path={path.HOME} exact component={Home} />
                     <Route
@@ -69,7 +70,7 @@ class App extends Component {
                       component={userIsAuthenticated(Admin)}
                     />
                   </Switch>
-                  {isLoggedIn ? <Footer /> : ""}
+                  {/* {isLoggedIn ? <Footer /> : ""} */}
                 </CustomScrollbars>
               </div>
 

@@ -1,7 +1,9 @@
 .css-11xur9t-MuiPaper-root-MuiTableContainer-root{
     box-shadow: none;
 }
-
+.css-i44wyl{
+    width: 100%;
+}
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
     width: 100% !important;
 }
@@ -89,9 +91,7 @@
         }
     }
 }
-// .card-title{
-//     padding-left: 5px;
-// }
+
 .card-tools{
     position: absolute;
     right: 20px;
@@ -108,7 +108,9 @@
 .thead-table{
     border: none;
 }
-
+.table-user-manage{
+    font-size: 12px;
+}
 
 .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
     margin-bottom: 10px;
@@ -116,24 +118,29 @@
 
 
 //=========================================================Pagination
-//Địa chỉ css trên host với menu select , button right,left
 
-.css-16c50h-MuiInputBase-root-MuiTablePagination-select,.css-rmmij8{
-    top: -6px !important;
-}
-.css-6hp17o-MuiList-root-MuiMenu-list,.css-pwxzbm {
+.css-6hp17o-MuiList-root-MuiMenu-list{
     padding-bottom: 0px !important;
     border-radius: 3px;
-    overflow: hidden;
-    width: 100% !important;
+    overflow: hidden !important;
+    // height: 250px;
+
     .MuiTablePagination-menuItem,.css-1gs62wq{
         width: 60px;
         height: 36px;
-        display: block;
+        display: block !important;
         line-height: 2.5;
-        padding :6px 16px;
+        padding :6px 16px !important;
         text-align: center;
     }
+}
+.MuiTablePagination-menuItem{
+    width: 60px;
+    height: 36px;
+    display: block !important;
+    line-height: 2.5;
+    padding :6px 16px !important;
+    text-align: center;
 }
 ///CSS position menu dropdown
 .css-6hp17o-MuiList-root-MuiMenu-list{
@@ -149,12 +156,16 @@
     font-size: 11px !important;
     line-height: 30px !important;
     height: 3em;
-    padding: 5px;
+
     &:hover{
         color:#0d6efd;
     }
 }
 
+.motherCompany{
+    height: 250px !important;
+    overflow: scroll;
+}
 
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root{
     color:#1e293b
@@ -164,6 +175,7 @@
         font-size: 8px !important;
     }
 }
+
 .css-bpeome-MuiSvgIcon-root-MuiSelect-icon{
     font-size: 8px !important;
 }
@@ -182,10 +194,6 @@
     }
 }
 
-//Menu list item
-.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root{
-    padding: 5px;
-}
 
 
 
@@ -219,10 +227,7 @@
     }
 }
 
-//Chu trong list box chon cong ty me
-.css-pwxzbm{
-    color: rgba(0, 0, 0, 0.65);
-}
+
 
 //Font size for pagination
 .css-i4bv87-MuiSvgIcon-root{
@@ -233,11 +238,16 @@
 }
 
 
+//Style height cho dropdown list 
 
 .css-1t6pjpu-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
-    padding:5px 0px 0px 10px;
+    height: 250px !important;
+    overflow: scroll;
 }
-
+//Style position cho dropdown list 
+.css-7c7czk{
+    left: 38px !important;
+}
 //====================================Show progressbar
 .content-wrapper{
     position: relative;
@@ -247,22 +257,31 @@
     top: 20%;
     left: 45%;
 }
-.space{
-    display: none !important;
-}
-
 
 table{
     display: block;
     overflow-y: scroll;
 }
-.row-body{
-    padding: 0px 5px 0px 5px;
+
+//Menu list
+//Select filter 2/5/10/15
+.css-r8u8y9{
+    height: 250px !important;
 }
+
+//Select filter motherCompany serverr
+.css-jim9fd{
+    height: 250px !important;
+}
+//Menu item padding
 .css-1km1ehz{
-    opacity: 1; 
-    transition: opacity 0.3s ease;
+    padding: 10px !important;
 }
-.css-1km1ehz:hover{
-    opacity: 0.8;
+//Chu trong list box chon cong ty me
+.css-pwxzbm{
+    color: rgba(0, 0, 0, 0.65);
+    width: 60px !important;
+    height: 152px !important;
+    overflow: hidden !important;
 }
+

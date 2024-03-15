@@ -8,6 +8,7 @@ const initialState = {
   user_id: null,
   isLoadingPage: false,
   view: 0,
+  isLockScreen:false
 };
 
 const appReducer = (state = initialState, action) => {
@@ -19,7 +20,8 @@ const appReducer = (state = initialState, action) => {
       copyState_user.userInfo = action.userInfo;
       copyState_user.isLoggedIn = true;
       copyState_user.isLoadingPage = true;
-      console.log("Check data from redux", copyState_user.isLoggedIn);
+      copyState_user.isLockScreen = false;
+  
       return {
         ...copyState_user,
       };
@@ -89,7 +91,12 @@ const appReducer = (state = initialState, action) => {
       return {
         ...copyState_view,
       };
-    default:
+    case actionTypes.UPDATE_LOCKSCREEN:
+      return {
+        ...state,
+        isLockScreen: true,
+      };
+      default:
       return state;
   }
 };

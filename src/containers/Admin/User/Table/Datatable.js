@@ -78,9 +78,9 @@ export default function Datatable(props) {
   const [orderDirection, setOrderDirection] = React.useState("asc");
   const [valueToOrderBy, setValueToOrderBy] = React.useState("name");
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(2);
+  const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [rowPerPageOptions, setRowPerPageOption] = React.useState([
-    2, 5, 10, 15,
+    25, 50, 100, 200,
   ]);
   const [listUser, setListUser] = React.useState([]);
   const [filterfn, setFilterfn] = React.useState({
@@ -228,6 +228,7 @@ export default function Datatable(props) {
       let arrMotherCompany = [];
       let newArrMotherCompany = [];
       let res = await handleGetAllCompany(access_token);
+
       if (res && res.code === 200) {
         res.data.map((item, index) => {
           arrMotherCompany.push(item.motherCompany);
@@ -284,7 +285,6 @@ export default function Datatable(props) {
         };
       } else {
         setIsOpenLogoutModal(true);
-        // return history.push("/admin/logout");
       }
     }
   }, []);
@@ -537,13 +537,101 @@ export default function Datatable(props) {
                                         </button>
                                       </TableCell>
                                     </>
+                                  ) : ""}
+
+                                {role === "Moderator" &&
+                                  company !== item.company &&
+                                  window.innerWidth > 700 ? (
+                                    <>
+                                      <TableCell>
+                                        <button
+                                          className="button-edit-user d-none" 
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="button-delete-user d-none"                                        
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() =>
+                                            history.push(
+                                              `/admin/user/view/${item.id}`
+                                            )
+                                          }
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </TableCell>
+                                    </>
                                   ) : null}
+
+                                {role === "Moderator" &&
+                                  company !== item.company &&
+                                  window.innerWidth <700 ? (
+                                    <>
+                                      <TableCell>
+                                        <button
+                                          className="button-edit-user"
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="button-delete-user"                                        
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() =>
+                                            history.push(
+                                              `/admin/user/view/${item.id}`
+                                            )
+                                          }
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </TableCell>
+                                    </>
+                                  ) : null}
+
+                                {role === "Moderator" &&
+                                  company === item.company &&
+                                  window.innerWidth <700 ? (
+                                    <>
+                                      <TableCell>
+                                        <button
+                                          className="space"
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="space  "                                        
+                                        >
+                                          {space}
+                                        </button>
+                                        <button
+                                          className="button-view-user"
+                                          onClick={() =>
+                                            history.push(
+                                              `/admin/user/view/${item.id}`
+                                            )
+                                          }
+                                        >
+                                          <i className="fa fa-eye"></i>
+                                        </button>
+                                      </TableCell>
+                                    </>
+                                  ) : null}
+
 
                                   {role === "User" &&
                                   company === item.company ? (
                                     <>
                                       <TableCell>
-                                        <button className="space">
+                                        <button className="space d-none">
                                           {space}
                                         </button>
                                         <button className="space">

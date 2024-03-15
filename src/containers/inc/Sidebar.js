@@ -39,6 +39,7 @@ class Sidebar extends Component {
   }
 
   render() {
+    // console.log("Check",this.props.userInfo.role)
     let { users, listUser, listPost } = this.state;
     let { isLoggedIn } = this.props;
     let pathName = window.location.pathname;
@@ -72,55 +73,14 @@ class Sidebar extends Component {
     } else if (pathName === "admin/post/myPost") {
       isActiveMyListPost = true;
     }
-    // var path = window.location.pathname.split("/").slice(2);
-    // console.log(path);
+    let role = this.props.userInfo.role;
+    
     return (
       <>
         <aside className="main-sidebar main-sidebar-custom sidebar-primary elevation-4 ">
           {/* Sidebar */}
           <div className="sidebar">
-            {/* Sidebar user (optional) */}
-            <div className="user-panel mt-3 pb-3 mb-3 d-flex">
-              <div className="image">
-                <img
-                  src={
-                    this.props.userInfo.thumbnailUrl
-                      ? this.props.userInfo.thumbnailUrl
-                      : ""
-                  }
-                  className="img-circle elevation-2"
-                  alt=""
-                />
-              </div>
-              <div className="info">
-                <a href={hrefDefault} className="d-block title-name">
-                  {this.props.userInfo.name ? this.props.userInfo.name : ""}
-                </a>
-              </div>
-              {/* <div className="btn btn-logout" onClick={processLogout}>
-                <i className="fas fa-sign-out-alt"></i>
-              </div> */}
-            </div>
-            {/* SidebarSearch Form */}
-            <div className="form-inline">
-              <div
-                className="input-group sidebar-search"
-                data-widget="sidebar-search"
-              >
-                <input
-                  className="form-control form-control-sidebar"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <div className="input-group-append">
-                  <button className="btn btn-sidebar ">
-                    <i className="fas fa-search fa-fw"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            {/* Sidebar Menu */}
+            
             {/* //========================================================Phân quyền menu cho users */}
             {isLoggedIn ? (
               <aside className="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
@@ -146,28 +106,19 @@ class Sidebar extends Component {
                           ? this.props.userInfo.name
                           : ""}
                       </a>
+                      <a
+                        href={hrefDefault.toString()}
+                        className="d-block title-name"
+                      >
+                        {this.props.userInfo.role
+                          ? this.props.userInfo.role
+                          : ""}
+                      </a>
                     </div>
                   </div>
-                  {/* <div className="form-inline">
-                    <div
-                      className="input-group sidebar-search"
-                      data-widget="sidebar-search"
-                    >
-                      <input
-                        className="form-control form-control-sidebar"
-                        type="search"
-                        placeholder="Search"
-                        aria-label="Search"
-                      />
-                      <div className="input-group-append">
-                        <button className="btn btn-sidebar ">
-                          <i className="fas fa-search fa-fw"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div> */}
+                 
                   {/* //========================================================Phân quyền menu cho users */}
-                  {users.role === "User" ? (
+                  {role === "User" ? (
                     <nav className="mt-2 ">
                       <ul
                         className="nav nav-pills nav-sidebar flex-column  nav-flat"
@@ -230,6 +181,16 @@ class Sidebar extends Component {
                               </Link>
                             </li>
 
+                            <li className="nav-item">
+                              <Link
+                                to={path.LOCKSCREEN}
+                                className={"nav-link"}
+                              >
+                                <i className="far fa-circle nav-icon" />
+                               LockScreen
+                              </Link>
+                            </li>
+
                             <li className="nav-item ">
                               <Link to={path.LOG_OUT} className={"nav-link"}>
                                 <i className="far fa-circle nav-icon" />
@@ -277,19 +238,7 @@ class Sidebar extends Component {
                                 Danh sách sáng kiến
                               </Link>
                             </li>
-                            {/* <li className={"nav-item"}>
-                            <Link
-                              to="/admin/user/table"
-                              className={
-                                isActiveCreatePost
-                                  ? "nav-link active"
-                                  : "nav-link"
-                              }
-                            >
-                              <i className="far fa-circle nav-icon" />
-                              Table
-                            </Link>
-                          </li> */}
+                            
                           </ul>
                         </li>
                       </ul>
@@ -370,6 +319,15 @@ class Sidebar extends Component {
                               </Link>
                             </li>
 
+                            <li className="nav-item">
+                              <Link
+                                to={path.LOCKSCREEN}
+                                className={"nav-link"}
+                              >
+                                <i className="far fa-circle nav-icon" />
+                               LockScreen
+                              </Link>
+                            </li>
                             <li className="nav-item ">
                               <Link to={path.LOG_OUT} className={"nav-link"}>
                                 <i className="far fa-circle nav-icon" />
@@ -437,8 +395,7 @@ class Sidebar extends Component {
                                 Sáng kiến của tối
                               </Link>
                             </li>
-
-                            <li className={"nav-item"}>
+                            {/* <li className={"nav-item"}>
                               <Link
                                 to="/admin/speech"
                                 className={
@@ -449,6 +406,50 @@ class Sidebar extends Component {
                               >
                                 <i className="far fa-circle nav-icon" />
                                 Nhận diện giọng nói
+                              </Link>
+                            </li> */}
+                          </ul>
+                        </li>
+
+                        {/* //AI Module */}
+                        <li className="nav-item">
+                          <a href={hrefDefault.toString()} className="nav-link">
+                            <i className="nav-icon fa fa-clipboard" />
+                            <p>
+                              Nhận diện khuôn mặt/giọng nói
+                              <i className="right fas fa-angle-left" />
+                            </p>
+                          </a>
+                          <ul className="nav nav-treeview nav-item-child">
+                            <li className={"nav-item"}>
+                              <Link
+                                to="/admin/speech"
+                                className={
+                                  isActiveCreatePost
+                                    ? "nav-link active"
+                                    : "nav-link"
+                                }
+                              >
+                                <i className="far fa-circle nav-icon" />
+                                Nhận diện giọng nói
+                              </Link>
+                            </li>
+                            <li className={"nav-item"}>
+                              <Link
+                                to="/admin/faceId"
+                                className={
+                                  isActiveMyListPost
+                                    ? "nav-link active"
+                                    : "nav-link"
+                                }
+                              >
+                                <i className="far fa-circle nav-icon" />
+                                {/* <span className="badge badge-success navbar-badge badge-sidebar">
+                                  {listPost && listPost.length > 0
+                                    ? listPost.length
+                                    : "0"}
+                                </span> */}
+                               Nhận diện khuôn mặt
                               </Link>
                             </li>
                           </ul>

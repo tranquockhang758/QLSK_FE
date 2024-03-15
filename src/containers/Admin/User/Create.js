@@ -387,7 +387,6 @@ class Create extends Component {
         thumbnailUrl,
       };
       try {
-        console.log(data);
         let access_token = this.props.access_token;
         let res = await createNewUser(data, access_token);
         if (res && res.code === 200) {
@@ -405,9 +404,20 @@ class Create extends Component {
             company: "",
           });
           this.props.history.push("/admin/list-users");
-        } else if (res && res.code !== 200) {
-          toast.error(res.message);
-          // toast.error("Create new user unsuccessfully", res.message);
+        } else if (res && res.code !== 200 && res.code===500) {
+          //Gọi API xóa ảnh
+          let fd = new FormData();
+          let url = "http://upload.httpbridge.com/delete_image.php";
+          //this.state.thumbnailUrl
+          let thumbnail = this.state.thumbnailUrl;
+          let urlString = "https://upload.httpbridge.com//uploads_image/"
+          let length = urlString.length;
+          let fileName = thumbnail.slice(length)
+          fd.append("filename",fileName);
+          let res = await axios.post(url, fd);
+          if(res && res.data.message.includes("has been deleted successfully")){
+            toast.error("Người dùng đã tồn tại trên hệ thống");
+          }
         } else {
           toast.error(res.message);
         }
@@ -433,9 +443,9 @@ class Create extends Component {
 
       imageElement.addEventListener("load", (e) => {
         const { naturalWidth, naturalHeight } = e.currentTarget;
-        if (naturalWidth > 113 && naturalHeight > 151) {
+        if (naturalWidth < 151 && naturalHeight > 226) {
           this.setState({
-            error_image: "Vui lòng chọn ảnh 3x4",
+            error_image: "Vui lòng chọn ảnh 4x6",
           });
         }
       });
@@ -452,39 +462,86 @@ class Create extends Component {
       this.setState({ isLoadingPreloader: false });
       this.setState({ listCompany: res.data });
       //Xử lí lấy công ty mẹ
+      let role = this.props.userInfo.role;
+      let myMotherCompany = this.props.userInfo.motherCompany;
+      // let myCompany = this.props.userInfo.company;
       if (this.state.listCompany.length > 0) {
         let arrMotherCompany = [];
         let arrCompany = [];
+        let arrFullCompany = [];
+        //Lấy tất cả công ty mẹ/con
         this.state.listCompany.map((item, index) => {
           //Duyệt mãng và chạy vòng for để check xem phần tử nào chứa trong mãng
           arrMotherCompany.push(item.motherCompany);
           arrCompany.push(item.company);
+          arrFullCompany.push({company:item.company,motherCompany:item.motherCompany});
         });
-        //Xử lí lấy công ty me
-        if (arrMotherCompany.length > 0) {
-          let newArrMotherCompany = [];
-          for (let i = 0; i < arrMotherCompany.length; i++) {
-            if (!newArrMotherCompany.includes(arrMotherCompany[i])) {
-              newArrMotherCompany.push(arrMotherCompany[i]);
+
+        //Nếu role là admin ta sẽ lấy hết
+        if(role === "Admin"){
+          //Xử lí lấy công ty con
+          if (arrMotherCompany.length > 0) {
+            let newArrMotherCompany = [];
+            for (let i = 0; i < arrMotherCompany.length; i++) {
+              if (!newArrMotherCompany.includes(arrMotherCompany[i])) {
+                newArrMotherCompany.push(arrMotherCompany[i]);
+              }
+            }
+            this.setState({
+              listMotherCompany: newArrMotherCompany,
+            });
+          }
+          if (arrCompany.length > 0) {
+            let newArrCompany = [];
+            for (let i = 0; i < arrCompany.length; i++) {
+              if (!newArrCompany.includes(arrCompany[i])) {
+                newArrCompany.push(arrCompany[i]);
+              }
+            }
+            this.setState({
+              arrCompany: newArrCompany,
+            });
+          }
+        }
+        //Nếu role là moderator ta sẽ lấy công ty mẹ trùng với công ty mẹ của moderator
+        if(role === "Moderator"){
+
+          //Xử lí lấy công ty mẹ
+          if(arrMotherCompany.length > 0){
+            let newArrMotherCompany =[];
+            for(let i=0;i<arrMotherCompany.length;i++){
+              if(arrMotherCompany[i] === myMotherCompany){
+                if(!newArrMotherCompany.includes(arrMotherCompany[i])){
+                  newArrMotherCompany.push(arrMotherCompany[i]);
+                }
+              }
+            }
+            this.setState({
+              listMotherCompany: newArrMotherCompany,
+            });
+          }
+
+          //Xử lí lấy công con
+          //B1// ta có được mãng là công ty mẹ => chạy vòng map => filter item với điều kiện công ty mẹ === myMotherCompany
+          //Mãng gồm công ty con và công ty mẹ
+          if(arrFullCompany.length>0){
+            let newArrCompany = arrFullCompany.filter(item => 
+              item.motherCompany === myMotherCompany
+            );
+            if(newArrCompany.length>0){
+              let newArrCompanyAfterFilter = [];
+              for(let i = 0; i < newArrCompany.length;i++){
+                if(!newArrCompanyAfterFilter.includes(newArrCompany[i].company)){
+                  newArrCompanyAfterFilter.push(newArrCompany[i].company);
+                }
+              }
+              this.setState({ arrCompany: newArrCompanyAfterFilter})
             }
           }
-          this.setState({
-            listMotherCompany: newArrMotherCompany,
-          });
         }
 
-        //Xử lí lấy công ty con
-        if (arrCompany.length > 0) {
-          let newArrCompany = [];
-          for (let i = 0; i < arrCompany.length; i++) {
-            if (!newArrCompany.includes(arrCompany[i])) {
-              newArrCompany.push(arrCompany[i]);
-            }
-          }
-          this.setState({
-            arrCompany: newArrCompany,
-          });
-        }
+
+       
       }
     } else {
       this.setState({ isLoadingPreloader: false });
@@ -499,7 +556,13 @@ class Create extends Component {
 
     if (decodeToken !== "") {
       if (decodeToken.exp > date.getTime() / 1000) {
-        this.handleGetAllCompany();
+        let role = this.props.userInfo.role;
+        if(role === "Admin" || "Moderator"){
+          this.handleGetAllCompany();
+        }
+        else if(role === "User"){
+          return this.props.history.push("/admin/error");
+        }
       } else if (decodeToken.exp < date.getTime() / 1000) {
         this.setState({ isOpenLogoutModal: true });
         // return this.props.history.push("/admin/logout");
@@ -571,7 +634,7 @@ class Create extends Component {
       crops: centeredCrop,
     });
   };
-  handleShowPassword = (crop) => {
+  handleShowPassword = () => {
     this.setState({ isShowPassword: !this.state.isShowPassword });
   };
   urltoFile(url, filename, mimeType) {
@@ -645,6 +708,7 @@ class Create extends Component {
     }
   };
   render() {
+
     let {
       progress,
       error_name,
@@ -722,7 +786,8 @@ class Create extends Component {
                           onChange={(pixelCrop, percentCrop) =>
                             this.handleOnChangeCrop(pixelCrop, percentCrop)
                           }
-                          maxWidth={113}
+                          minWidth={400}
+                          minHeight={600}
                           style={{ objectFit: "contain" }}
                           // maxHeight={150}
                         >
@@ -981,9 +1046,15 @@ class Create extends Component {
                                 }
                               >
                                 <option value={""}>Chọn vai trò</option>
-                                <option value={"Admin"}>Admin</option>
+                                {role === "Admin" ? <> <option value={"Admin"}>Admin</option>
                                 <option value={"Moderator"}>Moderator</option>
                                 <option value={"User"}>User</option>
+                                </>:""}
+                                {role === "Moderator" ? <> 
+                                
+                                <option value={"User"}>User</option>
+                                </>:""}
+                               
                               </select>
                               {/* Hiển thị info khi có lỗi */}
                               {!_.isEmpty(this.state.error_role) ? (
